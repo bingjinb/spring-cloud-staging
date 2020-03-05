@@ -8,19 +8,7 @@ import java.util.Objects;
 
 public class BaseController {
     public ResultWrapper success() {
-        ResultWrapper resultWrapper = new ResultWrapper();
-        resultWrapper.setSuccess(true);
-        resultWrapper.setCode(ErrorCodeEnum.SUCCESS.getKey());
-        resultWrapper.setMessage(ErrorCodeEnum.SUCCESS.getValue());
-        return resultWrapper;
-    }
-
-    public ResultWrapper success(String message) {
-        ResultWrapper resultWrapper = new ResultWrapper();
-        resultWrapper.setSuccess(true);
-        resultWrapper.setCode(ErrorCodeEnum.SUCCESS.getKey());
-        resultWrapper.setMessage(message);
-        return resultWrapper;
+        return success("");
     }
 
     public <T> ResultWrapper<T> success(String message, T object) {

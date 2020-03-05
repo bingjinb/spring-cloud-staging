@@ -9,10 +9,7 @@ import com.bugod.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Objects;
@@ -34,12 +31,12 @@ import java.util.Objects;
 
 @Slf4j
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 @Api(tags = "控制层")
 public class GenderController extends BaseController {
 
     @ApiOperation(value = "Get获取枚举", notes = "Get获取枚举")
-    @GetMapping("enum")
+    @GetMapping("/enum")
     public ResultWrapper get(GenderPO request) {
         GenderEnum genderEnum = request.getGender();
         if (Objects.isNull(genderEnum)) {
@@ -54,6 +51,15 @@ public class GenderController extends BaseController {
         return success();
     }
 
+    @ApiOperation(value = "path", notes = "path")
+    @PostMapping("/{uuid}")
+    public ResultWrapper validatePO2(@PathVariable("uuid") String uuid) {
+        return success();
+    }
 
-
+    @ApiOperation(value = "Get获取名字", notes = "Get获取名字")
+    @GetMapping("/getName")
+    public ResultWrapper getName(@RequestParam String name) {
+        return success(name);
+    }
 }
