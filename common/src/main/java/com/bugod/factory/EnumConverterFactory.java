@@ -24,11 +24,12 @@ public class EnumConverterFactory implements ConverterFactory<String, BaseEnum> 
 
     static class IntegerStrToEnum<T extends BaseEnum> implements Converter<String, T> {
         private final Map<String, T> enumMap = new HashMap<>();
+
         public IntegerStrToEnum(Class<T> enumType) {
             T[] enums = enumType.getEnumConstants();
             for (T e : enums) {
                 Object key = e.getKey();
-                enumMap.put(key == null? null : key.toString(), e);
+                enumMap.put(key == null ? null : key.toString(), e);
             }
         }
 

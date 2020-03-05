@@ -28,7 +28,7 @@ public class SwaggerConfiguration {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("spring cloud demo")
+                .title("spring cloud staging")
                 .description("bugod demo API 文档")
                 .version("2.0")
                 .contact(new Contact("demo", "https://bugod.com", "bingjinb@gmail.com"))
