@@ -1,0 +1,20 @@
+server:
+  port: 4001
+  compression:
+    enabled: true
+    min-response-size: 10
+    excluded-user-agents: gozilla,traviata
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
+spring:
+  application:
+    name: base-service
+
+logging:
+  file:
+    max-history: 10
+    max-size: 100MB
+    name: ./${spring.application.name}/log/${spring.application.name}.log
+  level:
+    root: INFO
+    org.springframework: INFO
+    com.bugod.demo: INFO
