@@ -35,6 +35,9 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        /**
+         *  【注意】：addPathPatterns(/api/**),  /api/** 路径是针对 Controller 层的 @RequestMapping("/api") 设置的路径
+         */
         registry.addInterceptor(new TraceIdInterceptor()).addPathPatterns("/api/**");
         registry.addInterceptor(new LogInterceptor()).addPathPatterns("/api/**");
     }

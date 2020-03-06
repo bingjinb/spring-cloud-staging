@@ -47,7 +47,7 @@ public class GenderController extends BaseController {
 
     @ApiOperation(value = "自定义注解", notes = "自定义注解")
     @PostMapping("/validate")
-    public ResultWrapper validatePO2(@Valid @Mobile User user) {
+    public ResultWrapper validatePO2(@Valid User user) {
         return success();
     }
 
@@ -58,7 +58,7 @@ public class GenderController extends BaseController {
     }
 
     @ApiOperation(value = "Get获取名字", notes = "Get获取名字")
-    @GetMapping("/getName")
+    @GetMapping("/getName/x/y/z")
     public ResultWrapper getName(@RequestParam String name) {
         return success(name);
     }
