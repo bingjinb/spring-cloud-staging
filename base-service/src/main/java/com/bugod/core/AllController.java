@@ -1,6 +1,5 @@
 package com.bugod.core;
 
-import com.bugod.annotation.Mobile;
 import com.bugod.constant.ErrorCodeEnum;
 import com.bugod.constant.GenderEnum;
 import com.bugod.entity.GenderPO;
@@ -9,6 +8,7 @@ import com.bugod.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,7 +20,7 @@ import java.util.Objects;
  * FileName: GenderController
  * Author:   虫神
  * Date:     2020/3/3 15:45
- * Description: 枚举 Controller
+ * Description: 乱七八糟的Controller
  * History:
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间         Jira编号            描述
@@ -33,7 +33,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api")
 @Api(tags = "控制层")
-public class GenderController extends BaseController {
+public class AllController extends BaseController {
 
     @ApiOperation(value = "Get获取枚举", notes = "Get获取枚举")
     @GetMapping("/enum")
@@ -47,13 +47,14 @@ public class GenderController extends BaseController {
 
     @ApiOperation(value = "自定义注解", notes = "自定义注解")
     @PostMapping("/validate")
-    public ResultWrapper validatePO2(@Valid User user) {
-        return success();
+    public ResultWrapper<User> validate(@Validated User user) {
+        user.setEmail("admin@usa.com").setMobile("+86 "+user.getMobile());
+        return success(user);
     }
 
     @ApiOperation(value = "path", notes = "path")
     @PostMapping("/{uuid}")
-    public ResultWrapper validatePO2(@PathVariable("uuid") String uuid) {
+    public ResultWrapper path(@PathVariable("uuid") String uuid) {
         return success();
     }
 
