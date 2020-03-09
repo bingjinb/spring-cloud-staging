@@ -2,14 +2,10 @@ package com.bugod.interceptor;
 
 import com.bugod.constant.APIConstant;
 import org.slf4j.MDC;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
