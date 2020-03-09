@@ -1,9 +1,9 @@
 package com.bugod.interceptor;
 
-import com.bugod.util.ValidatorUtil;
 import com.bugod.constant.ErrorCodeEnum;
 import com.bugod.entity.ResultWrapper;
 import com.bugod.exception.ApiException;
+import com.bugod.util.ValidatorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -45,7 +45,7 @@ public class ExceptionInterceptor {
             FieldError fe = (FieldError) oe;
             String field = fe.getField();
             String defaultMessage = fe.getDefaultMessage();
-            errorMessage.append(field).append("|").append(defaultMessage);
+            errorMessage.append(field).append("|").append(defaultMessage).append(",");
         }
         Integer code = ErrorCodeEnum.ARGS_ERROR.getKey();
         String message = errorMessage.toString();
