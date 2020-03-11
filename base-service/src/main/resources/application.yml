@@ -5,9 +5,12 @@ server:
     min-response-size: 10
     excluded-user-agents: gozilla,traviata
     mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
+
 spring:
   application:
     name: base-service
+  profiles:
+    active: dev
 
 logging:
   file:
