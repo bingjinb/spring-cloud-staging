@@ -18,6 +18,7 @@ logging:
     max-size: 100MB
     name: ./${spring.application.name}/log/${spring.application.name}.log
   level:
-    root: INFO
-    org.springframework: INFO
-    com.bugod.demo: INFO
+    root: info
+    org.springframework: info
+    com.bugod.core.mapper*: info
+

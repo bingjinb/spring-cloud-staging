@@ -1,4 +1,4 @@
-package com.bugod.core;
+package com.bugod.core.controller;
 
 
 import com.bugod.constant.ErrorCodeEnum;

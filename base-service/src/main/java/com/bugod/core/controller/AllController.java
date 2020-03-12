@@ -1,4 +1,4 @@
-package com.bugod.core;
+package com.bugod.core.controller;
 
 import com.bugod.constant.ErrorCodeEnum;
 import com.bugod.constant.GenderEnum;
@@ -11,8 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Objects;
+
+
+
+
 
 /**
  * <pre>
@@ -40,7 +43,7 @@ public class AllController extends BaseController {
     public ResultWrapper get(GenderPO request) {
         GenderEnum genderEnum = request.getGender();
         if (Objects.isNull(genderEnum)) {
-           return error(ErrorCodeEnum.ARGS_NULL, "gender 不能为空");
+            return error(ErrorCodeEnum.ARGS_NULL, "gender 不能为空");
         }
         return success(request);
     }
