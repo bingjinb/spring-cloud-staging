@@ -12,9 +12,8 @@
 
     <properties>
         <swaggerVersion>2.8.0</swaggerVersion>
-        <slf.version>1.7.25</slf.version>
         <fastjson.version>1.2.54</fastjson.version>
-        <mysql.version>8.0.9-rc</mysql.version>
+        <mybatis-plus.version>3.3.1</mybatis-plus.version>
     </properties>
     <dependencies>
         <dependency>
@@ -32,7 +31,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
@@ -52,13 +50,5 @@
             <version>${fastjson.version}</version>
         </dependency>
     </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
 </project>

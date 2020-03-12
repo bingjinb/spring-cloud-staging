@@ -23,13 +23,25 @@
         <module>registration-center</module>
     </modules>
 
+
+
     <properties>
         <java.version>1.8</java.version>
-        <swaggerVersion>2.8.0</swaggerVersion>
-        <slf.version>1.7.25</slf.version>
         <encoding.version>UTF-8</encoding.version>
-        <fastjson.version>1.2.54</fastjson.version>
+
+        <mybatis-plus.version>3.3.1</mybatis-plus.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <developers>
         <developer>
             <id>root</id>
