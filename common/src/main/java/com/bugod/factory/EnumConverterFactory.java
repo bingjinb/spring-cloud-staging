@@ -1,6 +1,6 @@
 package com.bugod.factory;
 
-import com.bugod.constant.BaseEnum;
+import com.bugod.constant.enums.BaseEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 

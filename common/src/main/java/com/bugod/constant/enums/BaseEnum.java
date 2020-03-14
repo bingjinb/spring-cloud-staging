@@ -1,4 +1,4 @@
-package com.bugod.constant;
+package com.bugod.constant.enums;
 
 /**
  * <pre>

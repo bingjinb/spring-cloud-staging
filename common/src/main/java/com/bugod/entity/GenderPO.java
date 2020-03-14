@@ -1,6 +1,6 @@
 package com.bugod.entity;
 
-import com.bugod.constant.GenderEnum;
+import com.bugod.constant.enums.GenderEnum;
 import lombok.Data;
 
 

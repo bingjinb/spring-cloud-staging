@@ -1,6 +1,6 @@
 package com.bugod.exception;
 
-import com.bugod.constant.ErrorCodeEnum;
+import com.bugod.constant.enums.ErrorCodeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

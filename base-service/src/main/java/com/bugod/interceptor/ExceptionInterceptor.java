@@ -1,6 +1,6 @@
 package com.bugod.interceptor;
 
-import com.bugod.constant.ErrorCodeEnum;
+import com.bugod.constant.enums.ErrorCodeEnum;
 import com.bugod.entity.ResultWrapper;
 import com.bugod.exception.ApiException;
 import com.bugod.util.ValidatorUtil;

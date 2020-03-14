@@ -14,10 +14,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Data
-@TableName("t_article")
+@TableName("article")
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="t_article对象", description="t_article")
+@ApiModel(value="article对象", description="article")
 public class Article {
 
 	@TableId(type = IdType.AUTO)
@@ -52,6 +52,6 @@ public class Article {
     @ApiModelProperty(value = "更新时间")
 	private Date updateTime;
 
-    @ApiModelProperty(value = "是否删除:1|是, -1|否")
+    @ApiModelProperty(value = "删除标识（0|未删除  1|已删除）")
 	private Integer isDelete;
 }

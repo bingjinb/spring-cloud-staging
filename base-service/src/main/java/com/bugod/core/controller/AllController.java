@@ -1,7 +1,7 @@
 package com.bugod.core.controller;
 
-import com.bugod.constant.ErrorCodeEnum;
-import com.bugod.constant.GenderEnum;
+import com.bugod.constant.enums.ErrorCodeEnum;
+import com.bugod.constant.enums.GenderEnum;
 import com.bugod.entity.GenderPO;
 import com.bugod.entity.ResultWrapper;
 import com.bugod.entity.User;

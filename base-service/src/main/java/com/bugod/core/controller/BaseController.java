@@ -1,7 +1,7 @@
 package com.bugod.core.controller;
 
 
-import com.bugod.constant.ErrorCodeEnum;
+import com.bugod.constant.enums.ErrorCodeEnum;
 import com.bugod.entity.ResultWrapper;
 
 import java.util.Objects;
