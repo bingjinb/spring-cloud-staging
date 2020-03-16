@@ -7,9 +7,9 @@ import java.lang.annotation.*;
 
 /**
  * <pre>
- * Copyright (C) 2020 江苏新日电动车股份有限公司
+ * Copyright (C) 2020 XXX股份有限公司
  * FileName: Log
- * Author:   beyond
+ * Author:   虫神
  * Date:     2020/3/13 16:28
  * Description: 日志注解，加该注解数据入库
  * History:

@@ -6,11 +6,12 @@ import com.bugod.constant.APIConstant;
 import com.bugod.constant.UserOperationRecordConstant;
 import com.bugod.core.entity.UserOperationRecord;
 import com.bugod.core.service.IUserOperationRecordService;
+import com.bugod.util.ApplicationContextBeanUtil;
 import com.bugod.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -41,9 +42,6 @@ import java.util.Objects;
 @Slf4j
 public class LogInterceptor extends HandlerInterceptorAdapter {
 
-    @Autowired
-    IUserOperationRecordService operationRecordService;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String traceId = MDC.get(APIConstant.TRACE_ID);
@@ -60,31 +58,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         json.put(APIConstant.IP, ip);
         request.setAttribute(APIConstant.CONSTANT, json);
 
-
-        if (handler instanceof HandlerMethod) {
-            HandlerMethod handlerMethod = (HandlerMethod) handler;
-            Log log = handlerMethod.getMethodAnnotation(Log.class);
-            boolean flag = Objects.nonNull(log);
-            if (flag) {
-                String description = log.description();
-                Integer businessType = log.businessType().getKey();
-                Integer operatorType = log.operatorType().getKey();
-
-                /**
-                 * TODO userId、userName、userType 后期提供公用方法，调用获取，2020-3-14 16:16:28
-                 */
-                UserOperationRecord operation = new UserOperationRecord();
-                operation.setActionUrl(uri)
-                        .setParameter(map.toString())
-                        .setDescription(description)
-                        .setIp(ip)
-                        .setStartTime(new Date())
-                        .setBusinessType(businessType)
-                        .setOperatorType(operatorType);
-                request.setAttribute(UserOperationRecordConstant.CONSTANT, operation);
-            }
-
-        }
+        preHandleUserOperationRecord(request, handler, uri, map, ip);
 
         /**
          * TODO 后期 ELK 入库，在此规则上做相应调整，2020-3-5 16:05:23
@@ -109,6 +83,58 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
             log.info(APIConstant.PREFIX + APIConstant.TYPE_END + json.toJSONString());
         }
 
+        afterCompletionUserOperationRecord(request, handler, ex, operatingTime);
+
+        super.afterCompletion(request, response, handler, ex);
+    }
+
+
+    /**
+     * 用户操作轨迹入库 preHandle 处理
+     * @param request
+     * @param handler
+     * @param uri
+     * @param map
+     * @param ip
+     */
+    private void preHandleUserOperationRecord(HttpServletRequest request, Object handler, String uri, Map<String, String[]> map, String ip) {
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            Log log = handlerMethod.getMethodAnnotation(Log.class);
+            boolean flag = Objects.nonNull(log);
+            if (flag) {
+                String description = log.description();
+                Integer businessType = log.businessType().getKey();
+                Integer operatorType = log.operatorType().getKey();
+
+                /**
+                 * TODO
+                 * 1. userId、userName、userType 后期提供公用方法，调用获取，2020-3-14 16:16:28
+                 * 2. createTime、createBy
+                 */
+                UserOperationRecord operation = new UserOperationRecord();
+                operation.setActionUrl(uri)
+                        .setParameter(JSONObject.toJSONString(map))
+                        .setDescription(description)
+                        .setIp(ip)
+                        .setStartTime(new Date())
+                        .setBusinessType(businessType)
+                        .setOperatorType(operatorType);
+                request.setAttribute(UserOperationRecordConstant.CONSTANT, operation);
+            }
+
+        }
+    }
+
+
+    /**
+     * 用户操作轨迹入库 afterCompletion 处理
+     * @param request
+     * @param handler
+     * @param ex
+     * @param operatingTime 执行时长
+     */
+    private void afterCompletionUserOperationRecord(HttpServletRequest request, Object handler, Exception ex, Long operatingTime) {
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Log log = handlerMethod.getMethodAnnotation(Log.class);
@@ -131,12 +157,13 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
                         operation.setErrorMessage(errorMessage);
                     }
 
+//                    ApplicationContext application = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
+                    IUserOperationRecordService operationRecordService = ApplicationContextBeanUtil.getBean(IUserOperationRecordService.class);
                     operationRecordService.save(operation);
                 }
             }
 
         }
-        super.afterCompletion(request, response, handler, ex);
     }
 
 }

@@ -1,5 +1,8 @@
 package com.bugod.core.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.bugod.annotation.Log;
 import com.bugod.core.entity.Article;
 import com.bugod.core.service.IArticleService;
 import com.bugod.entity.ResultWrapper;
@@ -19,9 +22,12 @@ public class ArticleController extends BaseController {
 	@Autowired
 	private IArticleService articleService;
 
+	@Log(description = "文章列表")
 	@ApiOperation(value = "列表", notes = "列表")
 	@GetMapping("/list")
-	public ResultWrapper<List<Article>> list() {
+	public ResultWrapper<List<Article>> list(String title) {
+		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+		queryWrapper.eq(Article::getTitle, title);
 		List<Article> result = articleService.list();
 		return success(result);
 	}

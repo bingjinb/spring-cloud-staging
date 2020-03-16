@@ -2,9 +2,9 @@ package com.bugod.constant;
 
 /**
  * <pre>
- * Copyright (C) 2020 江苏新日电动车股份有限公司
+ * Copyright (C) 2020 XXX股份有限公司
  * FileName: UserOperationRecordConstant
- * Author:   beyond
+ * Author:   虫神
  * Date:     2020/3/14 16:56
  * Description: 用户操作轨迹常量
  * History:

@@ -4,9 +4,9 @@ import lombok.Getter;
 
 /**
  * <pre>
- * Copyright (C) 2020 江苏新日电动车股份有限公司
+ * Copyright (C) 2020 XXX股份有限公司
  * FileName: OperatorTypeEnum
- * Author:   beyond
+ * Author:   虫神
  * Date:     2020/3/13 16:46
  * Description: 操作类型枚举（0|其它  1|后台用户  2手机端用户）
  * History:

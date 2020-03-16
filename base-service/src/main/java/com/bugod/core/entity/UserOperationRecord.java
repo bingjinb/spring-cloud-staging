@@ -15,9 +15,9 @@ import java.util.Date;
 
 /**
  * <pre>
- * Copyright (C) 2020 江苏新日电动车股份有限公司
+ * Copyright (C) 2020 XXX股份有限公司
  * FileName: UserOperationRecord
- * Author:   beyond
+ * Author:   虫神
  * Date:     2020/3/14 16:01
  * Description: 操作轨迹实体
  * History:

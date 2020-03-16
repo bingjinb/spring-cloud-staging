@@ -23,4 +23,11 @@ public class MybatisPlusConfig {
     public OptimisticLockerInterceptor optimisticLockerInterceptor() {
         return new OptimisticLockerInterceptor();
     }
+
+    @Bean
+    public FieldFillMetaObjectHandler commonMetaObjectHandler() {
+        return new FieldFillMetaObjectHandler();
+    }
+
+
 }

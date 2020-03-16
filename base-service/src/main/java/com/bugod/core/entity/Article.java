@@ -1,8 +1,6 @@
 package com.bugod.core.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -47,10 +45,18 @@ public class Article {
     @ApiModelProperty(value = "创建时间")
 	private Date createTime;
 
+    @ApiModelProperty(value = "创建人")
+    @TableField(fill= FieldFill.INSERT)
+    private String createBy;
+
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新时间")
 	private Date updateTime;
+
+    @ApiModelProperty(value = "修改人")
+    @TableField(fill= FieldFill.UPDATE)
+    private String updateBy;
 
     @ApiModelProperty(value = "删除标识（0|未删除  1|已删除）")
 	private Integer isDelete;
