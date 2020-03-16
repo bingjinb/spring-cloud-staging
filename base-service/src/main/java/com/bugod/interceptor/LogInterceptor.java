@@ -10,8 +10,6 @@ import com.bugod.util.ApplicationContextBeanUtil;
 import com.bugod.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -157,9 +155,10 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
                         operation.setErrorMessage(errorMessage);
                     }
 
-//                    ApplicationContext application = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
                     IUserOperationRecordService operationRecordService = ApplicationContextBeanUtil.getBean(IUserOperationRecordService.class);
-                    operationRecordService.save(operation);
+                    System.out.println("------------------------------> begin time: "+new Date());
+                    operationRecordService.asyncSave(operation);
+                    System.out.println("------------------------------> end time: "+new Date());
                 }
             }
 
