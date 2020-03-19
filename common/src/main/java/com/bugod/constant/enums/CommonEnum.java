@@ -3,9 +3,6 @@ package com.bugod.constant.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-
 /**
  * <pre>
  * Copyright (C) 2020 XXX股份有限公司

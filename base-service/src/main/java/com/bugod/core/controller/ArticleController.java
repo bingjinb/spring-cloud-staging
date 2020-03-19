@@ -1,7 +1,6 @@
 package com.bugod.core.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bugod.annotation.Log;
 import com.bugod.core.entity.Article;
 import com.bugod.core.service.IArticleService;
