@@ -2,6 +2,7 @@ package com.bugod.config;
 
 import com.alibaba.fastjson.JSON;
 import com.bugod.constant.APIConstant;
+import com.bugod.entity.ResultWrapper;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
@@ -35,15 +36,15 @@ public class ControllerReponseAdvice implements ResponseBodyAdvice {
     }
 
     @Override
-    public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        if (o != null) {
+    public Object beforeBodyWrite(Object object, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
+        if (object != null && object instanceof ResultWrapper) {
             try {
                 HttpServletRequest servletRequest = ((ServletServerHttpRequest) serverHttpRequest).getServletRequest();
-                servletRequest.setAttribute(APIConstant.RESPONSE_RESULT, JSON.toJSONString(o));
+                servletRequest.setAttribute(APIConstant.RESPONSE_RESULT, object);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return o;
+        return object;
     }
 }

@@ -1,14 +1,11 @@
 package com.bugod.core.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bugod.core.entity.UserOperationRecord;
 import com.bugod.core.mapper.UserOperationRecordMapper;
 import com.bugod.core.service.IUserOperationRecordService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
-import java.util.Date;
 
 /**
  * @Description: 用户操作轨迹记录表
@@ -27,7 +24,7 @@ public class UserOperationRecordServiceImpl extends ServiceImpl<UserOperationRec
             Thread.sleep(2000);
         } catch (InterruptedException e) {
         }
-        System.out.println("=================================> time: "+new Date());
+//        System.out.println("=================================> time: "+new Date());
         return save(po);
     }
 }

@@ -1,11 +1,14 @@
 package com.bugod.interceptor;
 
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.bugod.annotation.Log;
 import com.bugod.constant.APIConstant;
 import com.bugod.constant.UserOperationRecordConstant;
 import com.bugod.core.entity.UserOperationRecord;
 import com.bugod.core.service.IUserOperationRecordService;
+import com.bugod.entity.ResultWrapper;
 import com.bugod.util.ApplicationContextBeanUtil;
 import com.bugod.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -46,42 +49,43 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         String uri = request.getRequestURI();
         Map<String, String[]> map = request.getParameterMap();
         String ip = IpUtil.getClientIpAddress(request);
-        Long startTime = System.currentTimeMillis();
 
-        request.setAttribute(APIConstant.BEGIN_TIME, startTime);
-        JSONObject json = new JSONObject();
-        json.put(APIConstant.TRACE_ID, traceId);
-        json.put(APIConstant.REQUEST_URI, uri);
-        json.put(APIConstant.REQUEST_BODY, map);
-        json.put(APIConstant.IP, ip);
-        request.setAttribute(APIConstant.CONSTANT, json);
+        UserOperationRecord po = new UserOperationRecord();
+        if (handler instanceof HandlerMethod) {
+            po.setActionUrl(uri).setParameter(JSONObject.toJSONString(map)).setIp(ip).setStartTime(new Date());
+            preHandleUserOperationRecord((HandlerMethod) handler, po);
+        }
 
-        preHandleUserOperationRecord(request, handler, uri, map, ip);
+        request.setAttribute(APIConstant.TRACE_ID, traceId);
+        request.setAttribute(UserOperationRecordConstant.CONSTANT, po);
 
-        /**
-         * TODO 后期 ELK 入库，在此规则上做相应调整，2020-3-5 16:05:23
-         */
-        log.info(APIConstant.PREFIX + APIConstant.TYPE_BEGIN + json.toJSONString());
         return super.preHandle(request, response, handler);
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        Long startTime = (Long) request.getAttribute(APIConstant.BEGIN_TIME);
-        Object apiConstant = request.getAttribute(APIConstant.CONSTANT);
-        Long operatingTime = System.currentTimeMillis() - startTime;
-        if (apiConstant instanceof JSONObject) {
-            JSONObject json = (JSONObject) apiConstant;
-            json.put(APIConstant.OPERATING_TIME, operatingTime);
-            json.put(APIConstant.RESPONSE_RESULT, request.getAttribute(APIConstant.RESPONSE_RESULT));
+        String traceId = request.getAttribute(APIConstant.TRACE_ID).toString();
+        Date endTime = new Date();
+        UserOperationRecord po = (UserOperationRecord) request.getAttribute(UserOperationRecordConstant.CONSTANT);
+        ResultWrapper responseResult = (ResultWrapper) request.getAttribute(APIConstant.RESPONSE_RESULT);
 
-            /**
-             * TODO 后期 ELK 入库，在此规则上做相应调整，2020-3-5 16:05:23
-             */
-            log.info(APIConstant.PREFIX + APIConstant.TYPE_END + json.toJSONString());
+        Date startTime = po.getStartTime();
+        Long operatingTime = DateUtil.between(startTime, endTime, DateUnit.MS);
+        po.setOperatingTime(operatingTime);
+        po.setEndTime(endTime);
+
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            String classTarget = handlerMethod.getBeanType().getName();
+            String method = handlerMethod.getMethod().getName();
+            StringBuilder sb = new StringBuilder().append("[TRACE_ID]").append(traceId).append("\r\n")
+                    .append("[方法]").append(classTarget).append(".").append(method).append("() ").append("\r\n")
+                    .append("[参数]").append(JSONObject.toJSONString(request.getParameterMap())).append("\r\n")
+                    .append("[返回]").append(JSONObject.toJSON(responseResult)).append("\r\n")
+                    .append("[耗时]").append(operatingTime).append("ms\r\n");
+            log.info(sb.toString());
+            afterCompletionUserOperationRecord(handlerMethod, ex, po, responseResult);
         }
-
-        afterCompletionUserOperationRecord(request, handler, ex, operatingTime);
 
         super.afterCompletion(request, response, handler, ex);
     }
@@ -89,80 +93,70 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * 用户操作轨迹入库 preHandle 处理
-     * @param request
-     * @param handler
-     * @param uri
-     * @param map
-     * @param ip
+     *
+     * @param handlerMethod 用户操作轨迹实体
+     * @param operation     用户操作轨迹实体
      */
-    private void preHandleUserOperationRecord(HttpServletRequest request, Object handler, String uri, Map<String, String[]> map, String ip) {
-        if (handler instanceof HandlerMethod) {
-            HandlerMethod handlerMethod = (HandlerMethod) handler;
-            Log log = handlerMethod.getMethodAnnotation(Log.class);
-            boolean flag = Objects.nonNull(log);
-            if (flag) {
-                String description = log.description();
-                Integer businessType = log.businessType().getKey();
-                Integer operatorType = log.operatorType().getKey();
+    private void preHandleUserOperationRecord(HandlerMethod handlerMethod, UserOperationRecord operation) {
+        Log logger = handlerMethod.getMethodAnnotation(Log.class);
+        boolean flag = Objects.nonNull(logger);
+        if (flag) {
+            String description = logger.description();
+            Integer businessType = logger.businessType().getKey();
+            Integer operatorType = logger.operatorType().getKey();
 
-                /**
-                 * TODO
-                 * 1. userId、userName、userType 后期提供公用方法，调用获取，2020-3-14 16:16:28
-                 * 2. createTime、createBy
-                 */
-                UserOperationRecord operation = new UserOperationRecord();
-                operation.setActionUrl(uri)
-                        .setParameter(JSONObject.toJSONString(map))
-                        .setDescription(description)
-                        .setIp(ip)
-                        .setStartTime(new Date())
-                        .setBusinessType(businessType)
-                        .setOperatorType(operatorType);
-                request.setAttribute(UserOperationRecordConstant.CONSTANT, operation);
-            }
-
+            operation.setDescription(description).setBusinessType(businessType).setOperatorType(operatorType);
         }
     }
 
-
     /**
      * 用户操作轨迹入库 afterCompletion 处理
-     * @param request
-     * @param handler
+     *
+     * @param handlerMethod
      * @param ex
-     * @param operatingTime 执行时长
+     * @param operation     用户操作轨迹实体
      */
-    private void afterCompletionUserOperationRecord(HttpServletRequest request, Object handler, Exception ex, Long operatingTime) {
-        if (handler instanceof HandlerMethod) {
-            HandlerMethod handlerMethod = (HandlerMethod) handler;
-            Log log = handlerMethod.getMethodAnnotation(Log.class);
-            boolean flag = Objects.nonNull(log);
-            if (flag) {
-                Object userOperationRecord = request.getAttribute(UserOperationRecordConstant.CONSTANT);
-                if (userOperationRecord instanceof UserOperationRecord) {
-                    UserOperationRecord operation = (UserOperationRecord) userOperationRecord;
-                    operation.setOperatingTime(operatingTime).setEndTime(new Date());
-
-                    if (ex != null) {
-                        String message = ex.getMessage();
-                        String errorMessage;
-                        if (message == null || message.isEmpty()) {
-                            errorMessage = message;
-                        } else {
-                            errorMessage = message.substring(0, 2000);
-                        }
-                        operation.setStatus(0);
-                        operation.setErrorMessage(errorMessage);
-                    }
-
-                    IUserOperationRecordService operationRecordService = ApplicationContextBeanUtil.getBean(IUserOperationRecordService.class);
-                    System.out.println("------------------------------> begin time: "+new Date());
-                    operationRecordService.asyncSave(operation);
-                    System.out.println("------------------------------> end time: "+new Date());
+    private void afterCompletionUserOperationRecord(HandlerMethod handlerMethod, Exception ex, UserOperationRecord operation, ResultWrapper resultWrapper) {
+        Log logger = handlerMethod.getMethodAnnotation(Log.class);
+        boolean flag = Objects.nonNull(logger);
+        if (flag) {
+            if (ex != null) {
+                String message = ex.getMessage();
+                String errorMessage = getMessage(message);
+                operation.setStatus(0);
+                operation.setErrorMessage(errorMessage);
+            }
+            if (!resultWrapper.isSuccess()) {
+                String message = resultWrapper.getMessage();
+                String stack = resultWrapper.getStack();
+                if (message == null || message.isEmpty()) {
+                    message = stack;
                 }
+                String errorMessage = getMessage(message);
+                operation.setStatus(0);
+                operation.setErrorMessage(errorMessage);
+                operation.setDetail(getMessage(stack));
             }
 
+            IUserOperationRecordService operationRecordService = ApplicationContextBeanUtil.getBean(IUserOperationRecordService.class);
+            operationRecordService.asyncSave(operation);
         }
+    }
+
+    /**
+     * 获取入库消息
+     * @param message   ResultWrapper 下的 message 或 stack
+     * @return
+     */
+    private String getMessage(String message) {
+        String errorMessage;
+        if (message == null || message.isEmpty()) {
+            errorMessage = message;
+        } else {
+            int length = message.length();
+            errorMessage = message.substring(0, length < 2000 ? length : 2000);
+        }
+        return errorMessage;
     }
 
 }
