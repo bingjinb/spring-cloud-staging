@@ -7,14 +7,6 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
-  mybatis-plus:
-    type-aliases-package: com.bugod.entity
-  global-config:
-    field-strategy: 2
-    db-column-underline: true
-    refresh-mapper: true
-    sql-parser-cache: false
+  type-aliases-package: com.bugod.entity
   configuration:
-    map-underscore-to-camel-case: true
     call-setters-on-nulls: true
-    cache-enabled: false

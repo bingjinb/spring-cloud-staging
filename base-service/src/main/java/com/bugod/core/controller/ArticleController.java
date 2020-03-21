@@ -27,7 +27,7 @@ public class ArticleController extends BaseController {
 	public ResultWrapper<List<Article>> list(String title) {
 		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
 		queryWrapper.eq(Article::getTitle, title);
-		List<Article> result = articleService.list();
+		List<Article> result = articleService.list(queryWrapper);
 		return success(result);
 	}
 
