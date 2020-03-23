@@ -78,7 +78,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             String classTarget = handlerMethod.getBeanType().getName();
             String method = handlerMethod.getMethod().getName();
-            StringBuilder sb = new StringBuilder().append("[TRACE_ID]").append(traceId).append("\r\n")
+            StringBuilder sb = new StringBuilder()
                     .append("[方法]").append(classTarget).append(".").append(method).append("() ").append("\r\n")
                     .append("[参数]").append(JSONObject.toJSONString(request.getParameterMap())).append("\r\n")
                     .append("[返回]").append(JSONObject.toJSON(responseResult)).append("\r\n")

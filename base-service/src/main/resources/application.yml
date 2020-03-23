@@ -22,5 +22,5 @@ logging:
     org.springframework: info
     com.bugod.core.mapper*: info
   pattern:
-  #  file: [%date{yyyy-MM-dd HH:mm:ss}][%thread][%-5level] %c{40} %line --%mdc{client} [%X{API_TRACE_ID}] %msg%n
-    console: '%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread|%X{API_TRACE_ID}]) %highlight(%-5level) %boldMagenta(%logger{10}) - %cyan(%msg%n)'
+    file: '%red(%d{yyyy-MM-dd HH:mm:sss}) %green([%thread|%X{API_TRACE_ID}]) %highlight(%-5level) %boldMagenta(%logger{10}) - %cyan(%msg%n)'
+    console: '%red(%d{yyyy-MM-dd HH:mm:sss}) %green([%thread|%X{API_TRACE_ID}]) %highlight(%-5level) %boldMagenta(%logger{10}) - %cyan(%msg%n)'
