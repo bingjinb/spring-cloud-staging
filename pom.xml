@@ -36,6 +36,8 @@
         <p6spy.version>3.8.5</p6spy.version>
         <fastjson.version>1.2.54</fastjson.version>
         <hutool.version>5.2.3</hutool.version>
+        <shiro.version>1.5.1</shiro.version>
+        <jwt.version>3.10.1</jwt.version>
     </properties>
 
     <dependencyManagement>
@@ -70,6 +72,17 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -124,10 +137,6 @@
                 </configuration>
             </plugin>
 
-<!--            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>-->
         </plugins>
     </build>
 </project>
