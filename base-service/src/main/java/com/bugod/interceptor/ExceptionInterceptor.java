@@ -5,21 +5,27 @@ import com.bugod.entity.ResultWrapper;
 import com.bugod.exception.ApiException;
 import com.bugod.util.ValidatorUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.ShiroException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.ServletException;
 import java.util.List;
 
 @Slf4j
-@ControllerAdvice(annotations = RestController.class)
-public class ExceptionInterceptor {
+@RestControllerAdvice
+public class ExceptionInterceptor{
+
 
     @ExceptionHandler(ApiException.class)
     @ResponseBody
@@ -52,6 +58,22 @@ public class ExceptionInterceptor {
         return bindResultWrapper(code, message, message, ex);
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(ShiroException.class)
+    @ResponseBody
+    public ResultWrapper doHandleShiroException(ShiroException ex){
+        Integer code = HttpStatus.UNAUTHORIZED.value();
+        String message = HttpStatus.UNAUTHORIZED.getReasonPhrase();
+        if(ex instanceof IncorrectCredentialsException){
+            message = "密码不正确";
+        } else if(ex instanceof UnknownAccountException){
+            message = "此账户不存在";
+        } else if(ex instanceof LockedAccountException){
+            message = "账户已被禁用";
+        }
+        String stack = ex.getMessage();
+        return bindResultWrapper(code, message, stack, ex);
+    }
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
@@ -61,7 +83,6 @@ public class ExceptionInterceptor {
         String stack = ex.getMessage();
         return bindResultWrapper(code, message, stack, ex);
     }
-
 
     /**
      * 组装 ResultWrapper
@@ -76,7 +97,7 @@ public class ExceptionInterceptor {
             stack = ex.toString();
         }
         ResultWrapper resultWrapper = new ResultWrapper(code, message, stack);
-        log.info(message, ex);
+        log.error(message, ex);
         return resultWrapper;
     }
 }

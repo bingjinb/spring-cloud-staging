@@ -64,7 +64,6 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        String traceId = request.getAttribute(APIConstant.TRACE_ID).toString();
         Date endTime = new Date();
         UserOperationRecord po = (UserOperationRecord) request.getAttribute(UserOperationRecordConstant.CONSTANT);
         ResultWrapper responseResult = (ResultWrapper) request.getAttribute(APIConstant.RESPONSE_RESULT);
@@ -78,7 +77,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             String classTarget = handlerMethod.getBeanType().getName();
             String method = handlerMethod.getMethod().getName();
-            StringBuilder sb = new StringBuilder()
+            StringBuilder sb = new StringBuilder().append("\r\n")
                     .append("[方法]").append(classTarget).append(".").append(method).append("() ").append("\r\n")
                     .append("[参数]").append(JSONObject.toJSONString(request.getParameterMap())).append("\r\n")
                     .append("[返回]").append(JSONObject.toJSON(responseResult)).append("\r\n")

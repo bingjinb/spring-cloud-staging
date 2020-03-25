@@ -2,12 +2,21 @@ package com.bugod.core.controller;
 
 import com.bugod.constant.enums.ErrorCodeEnum;
 import com.bugod.constant.enums.GenderEnum;
+import com.bugod.core.service.IUserService;
 import com.bugod.entity.GenderPO;
 import com.bugod.entity.ResultWrapper;
 import com.bugod.entity.User;
+import com.bugod.shiro.UserBean;
+import com.bugod.util.JWTUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +47,9 @@ import java.util.Objects;
 @Api(tags = "控制层")
 public class AllController extends BaseController {
 
+    @Autowired
+    IUserService userService;
+
     @ApiOperation(value = "Get获取枚举", notes = "Get获取枚举")
     @GetMapping("/enum")
     public ResultWrapper get(GenderPO request) {
@@ -66,4 +78,39 @@ public class AllController extends BaseController {
     public ResultWrapper getName(@RequestParam String name) {
         return success(name);
     }
+
+
+    @ApiOperation(value = "登录")
+    @PostMapping("/login")
+    public ResultWrapper login(@RequestParam("username") String username,
+                              @RequestParam("password") String password) {
+        UserBean userBean = userService.getUser(username);
+        if (userBean.getPassword().equals(password)) {
+            return success("登陆成功", JWTUtil.sign(username, password));
+        } else {
+            throw new UnauthorizedException();
+        }
+    }
+
+    @ApiOperation(value = "认证")
+    @GetMapping("/require_auth")
+    @RequiresAuthentication
+    public ResultWrapper requireAuth() {
+        return success("登陆成功，您通过认证", "");
+    }
+
+    @ApiOperation(value = "授权-角色")
+    @GetMapping("/require_role")
+    @RequiresRoles("admin")
+    public ResultWrapper requireRole() {
+        return success("登陆成功，您有该角色", "");
+    }
+
+    @ApiOperation(value = "授权-资源")
+    @GetMapping("/require_permission")
+    @RequiresPermissions(logical = Logical.AND, value = {"view", "edit"})
+    public ResultWrapper requirePermission() {
+        return success("登陆成功，您有该角色", "");
+    }
+
 }

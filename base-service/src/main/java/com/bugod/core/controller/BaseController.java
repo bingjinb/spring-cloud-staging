@@ -3,9 +3,16 @@ package com.bugod.core.controller;
 
 import com.bugod.constant.enums.ErrorCodeEnum;
 import com.bugod.entity.ResultWrapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 
+@Slf4j
+@RestController
 public class BaseController {
     public ResultWrapper success() {
         return success("");
@@ -61,4 +68,11 @@ public class BaseController {
         ResultWrapper resultWrapper = new ResultWrapper(errorCodeEnum.getKey(), errorCodeEnum.getValue(), stack);
         return resultWrapper;
     }
+
+    @RequestMapping(path = "/401")
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResultWrapper unAuthorized() {
+        return error(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
+    }
+
 }
