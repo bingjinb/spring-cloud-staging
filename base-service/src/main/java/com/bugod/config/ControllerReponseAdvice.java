@@ -1,6 +1,5 @@
 package com.bugod.config;
 
-import com.alibaba.fastjson.JSON;
 import com.bugod.constant.APIConstant;
 import com.bugod.entity.ResultWrapper;
 import org.springframework.core.MethodParameter;
