@@ -11,11 +11,13 @@ import com.bugod.util.JWTUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -96,7 +98,13 @@ public class AllController extends BaseController {
     @GetMapping("/require_auth")
     @RequiresAuthentication
     public ResultWrapper requireAuth() {
-        return success("登陆成功，您通过认证", "");
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipal();
+        if (subject.isAuthenticated()) {
+            return success("登录成功，您通过认证", "");
+        } else {
+            return success("Guest登录", "");
+        }
     }
 
     @ApiOperation(value = "授权-角色")
