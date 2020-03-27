@@ -1,4 +1,4 @@
-package com.bugod.core.entity;
+package com.bugod.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
