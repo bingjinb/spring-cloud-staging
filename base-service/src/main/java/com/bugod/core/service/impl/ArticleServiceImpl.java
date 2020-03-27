@@ -2,7 +2,7 @@ package com.bugod.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.bugod.core.entity.Article;
+import com.bugod.entity.Article;
 import com.bugod.core.mapper.ArticleMapper;
 import com.bugod.core.service.IArticleService;
 import lombok.extern.slf4j.Slf4j;

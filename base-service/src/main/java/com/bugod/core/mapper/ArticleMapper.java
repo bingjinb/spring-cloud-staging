@@ -1,7 +1,7 @@
 package com.bugod.core.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.bugod.core.entity.Article;
+import com.bugod.entity.Article;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

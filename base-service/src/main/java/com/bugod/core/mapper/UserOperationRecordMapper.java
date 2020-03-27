@@ -1,7 +1,7 @@
 package com.bugod.core.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.bugod.core.entity.UserOperationRecord;
+import com.bugod.entity.UserOperationRecord;
 
 /**
  * @Description: 用户操作轨迹记录表

@@ -1,7 +1,7 @@
 package com.bugod.core.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.bugod.core.entity.UserOperationRecord;
+import com.bugod.entity.UserOperationRecord;
 import com.bugod.core.mapper.UserOperationRecordMapper;
 import com.bugod.core.service.IUserOperationRecordService;
 import org.springframework.scheduling.annotation.Async;

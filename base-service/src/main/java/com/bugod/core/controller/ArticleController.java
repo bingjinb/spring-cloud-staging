@@ -1,8 +1,9 @@
 package com.bugod.core.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bugod.annotation.Log;
-import com.bugod.core.entity.Article;
+import com.bugod.entity.Article;
 import com.bugod.core.service.IArticleService;
 import com.bugod.entity.ResultWrapper;
 import io.swagger.annotations.Api;
@@ -26,7 +27,7 @@ public class ArticleController extends BaseController {
 	@GetMapping("/list")
 	public ResultWrapper<List<Article>> list(String title) {
 		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-		queryWrapper.eq(Article::getTitle, title);
+		queryWrapper.eq(StrUtil.isNotBlank(title), Article::getTitle, title);
 		List<Article> result = articleService.list(queryWrapper);
 		return success(result);
 	}
