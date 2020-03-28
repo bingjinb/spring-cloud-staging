@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bugod.annotation.Log;
 import com.bugod.constant.APIConstant;
 import com.bugod.constant.UserOperationRecordConstant;
-import com.bugod.core.entity.UserOperationRecord;
+import com.bugod.entity.UserOperationRecord;
 import com.bugod.core.service.IUserOperationRecordService;
 import com.bugod.entity.ResultWrapper;
 import com.bugod.util.ApplicationContextBeanUtil;
@@ -19,6 +19,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.Objects;
 
@@ -67,6 +68,8 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         Date endTime = new Date();
         UserOperationRecord po = (UserOperationRecord) request.getAttribute(UserOperationRecordConstant.CONSTANT);
         ResultWrapper responseResult = (ResultWrapper) request.getAttribute(APIConstant.RESPONSE_RESULT);
+        String authorization = request.getHeader("Authorization");
+        String args = JSONObject.toJSONString(request.getParameterMap());
 
         Date startTime = po.getStartTime();
         Long operatingTime = DateUtil.between(startTime, endTime, DateUnit.MS);
@@ -79,7 +82,8 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
             String method = handlerMethod.getMethod().getName();
             StringBuilder sb = new StringBuilder().append("\r\n")
                     .append("[方法]").append(classTarget).append(".").append(method).append("() ").append("\r\n")
-                    .append("[参数]").append(JSONObject.toJSONString(request.getParameterMap())).append("\r\n")
+                    .append("[头]").append("Authorization: ").append(authorization).append("\r\n")
+                    .append("[参数]").append(args).append("\r\n")
                     .append("[返回]").append(JSONObject.toJSON(responseResult)).append("\r\n")
                     .append("[耗时]").append(operatingTime).append("ms\r\n");
             log.info(sb.toString());

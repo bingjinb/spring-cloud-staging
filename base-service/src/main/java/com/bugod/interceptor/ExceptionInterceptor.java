@@ -9,6 +9,7 @@ import org.apache.shiro.ShiroException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -64,12 +65,9 @@ public class ExceptionInterceptor{
     public ResultWrapper doHandleShiroException(ShiroException ex){
         Integer code = HttpStatus.UNAUTHORIZED.value();
         String message = HttpStatus.UNAUTHORIZED.getReasonPhrase();
-        if(ex instanceof IncorrectCredentialsException){
-            message = "密码不正确";
-        } else if(ex instanceof UnknownAccountException){
-            message = "此账户不存在";
-        } else if(ex instanceof LockedAccountException){
-            message = "账户已被禁用";
+        if(ex instanceof UnauthorizedException){
+            code = ErrorCodeEnum.RBAC_PERMISSION_NOT_EXIST.getKey();
+            message = ErrorCodeEnum.RBAC_PERMISSION_NOT_EXIST.getValue();
         }
         String stack = ex.getMessage();
         return bindResultWrapper(code, message, stack, ex);

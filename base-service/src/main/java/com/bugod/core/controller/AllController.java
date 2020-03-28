@@ -2,17 +2,16 @@ package com.bugod.core.controller;
 
 import com.bugod.constant.enums.ErrorCodeEnum;
 import com.bugod.constant.enums.GenderEnum;
-import com.bugod.core.service.IUserService;
+import com.bugod.core.service.ISysUserService;
 import com.bugod.entity.GenderPO;
 import com.bugod.entity.ResultWrapper;
+import com.bugod.entity.SysUser;
 import com.bugod.entity.User;
-import com.bugod.shiro.UserBean;
 import com.bugod.util.JWTUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -50,7 +49,7 @@ import java.util.Objects;
 public class AllController extends BaseController {
 
     @Autowired
-    IUserService userService;
+    ISysUserService userService;
 
     @ApiOperation(value = "Get获取枚举", notes = "Get获取枚举")
     @GetMapping("/enum")
@@ -84,14 +83,11 @@ public class AllController extends BaseController {
 
     @ApiOperation(value = "登录")
     @PostMapping("/login")
-    public ResultWrapper login(@RequestParam("username") String username,
+    public ResultWrapper login(@RequestParam("loginName") String loginName,
                               @RequestParam("password") String password) {
-        UserBean userBean = userService.getUser(username);
-        if (userBean.getPassword().equals(password)) {
-            return success("登陆成功", JWTUtil.sign(username, password));
-        } else {
-            throw new UnauthorizedException();
-        }
+        SysUser result = userService.verfyUser(loginName, password);
+        String token = JWTUtil.sign(loginName, result.getPassword());
+        return success("登陆成功", token);
     }
 
     @ApiOperation(value = "认证")
@@ -99,7 +95,6 @@ public class AllController extends BaseController {
     @RequiresAuthentication
     public ResultWrapper requireAuth() {
         Subject subject = SecurityUtils.getSubject();
-        String username = (String) subject.getPrincipal();
         if (subject.isAuthenticated()) {
             return success("登录成功，您通过认证", "");
         } else {
@@ -116,8 +111,9 @@ public class AllController extends BaseController {
 
     @ApiOperation(value = "授权-资源")
     @GetMapping("/require_permission")
-    @RequiresPermissions(logical = Logical.AND, value = {"view", "edit"})
+    @RequiresPermissions(logical = Logical.AND, value = {"system:user:view", "system:role:view"})
     public ResultWrapper requirePermission() {
+
         return success("登陆成功，您有该角色", "");
     }
 

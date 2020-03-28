@@ -1,7 +1,9 @@
 package com.bugod.shiro;
 
-import com.bugod.core.service.IUserService;
-import com.bugod.exception.ApiException;
+import com.bugod.core.service.ISysMenuService;
+import com.bugod.core.service.ISysRoleService;
+import com.bugod.core.service.ISysUserService;
+import com.bugod.entity.SysUser;
 import com.bugod.util.ApplicationContextBeanUtil;
 import com.bugod.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +17,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * <pre>
@@ -38,13 +38,6 @@ import java.util.Set;
 @Slf4j
 public class TokenRealm extends AuthorizingRealm {
 
-
-
-    private IUserService getUserService() {
-
-        return ApplicationContextBeanUtil.getBean(IUserService.class);
-    }
-
     @Override
     public boolean supports(AuthenticationToken token) {
         return token instanceof JWTToken;
@@ -52,33 +45,34 @@ public class TokenRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String username = JWTUtil.getUsername(principalCollection.toString());
-        UserBean user = getUserService().getUser(username);
+
+        String token = principalCollection.toString();
+        List<String> roles = ApplicationContextBeanUtil.getBean(ISysRoleService.class).getRoleKeysByToken(token);
+        List<String> perms = ApplicationContextBeanUtil.getBean(ISysMenuService.class).getPermsByToken(token);
+
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        simpleAuthorizationInfo.addRole(user.getRole());
-        Set<String> permission = new HashSet<>(Arrays.asList(user.getPermission().split(",")));
-        simpleAuthorizationInfo.addStringPermissions(permission);
+        // 1. 根据用户名获取用户角色
+        simpleAuthorizationInfo.addRoles(roles);
+        // 2. 根据用户名获取用户资源
+        simpleAuthorizationInfo.addStringPermissions(perms);
         return simpleAuthorizationInfo;
     }
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token = (String) authenticationToken.getCredentials();
-        // 解密获得username，用于和数据库进行对比
-        String username = JWTUtil.getUsername(token);
-        if (username == null) {
-            throw new AuthenticationException("token invalid");
-        }
+        SysUser sysUser = getUserService().getByToken(token);
 
-        UserBean userBean = getUserService().getUser(username);
-        if (userBean == null) {
-            throw new ApiException("User didn't existed!");
-        }
-
-        boolean verifyFlag = JWTUtil.verify(token, username, userBean.getPassword());
+        // 2. 根据用户名、密码、token解密，判断是否有效
+        boolean verifyFlag = JWTUtil.verify(token, sysUser.getLoginName(), sysUser.getPassword());
         if (!verifyFlag) {
             throw new AuthenticationException();
         }
-        return new SimpleAuthenticationInfo(token, token, "my_realm");
+        return new SimpleAuthenticationInfo(token, token, getName());
+    }
+
+
+    private ISysUserService getUserService() {
+        return ApplicationContextBeanUtil.getBean(ISysUserService.class);
     }
 }
