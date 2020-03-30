@@ -1,7 +1,7 @@
 package com.bugod.core.service;
 
-import com.bugod.entity.SysRoleMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bugod.entity.SysRoleMenu;
 
 /**
  * <p>

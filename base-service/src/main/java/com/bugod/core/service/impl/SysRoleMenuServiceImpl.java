@@ -1,9 +1,9 @@
 package com.bugod.core.service.impl;
 
-import com.bugod.entity.SysRoleMenu;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bugod.core.mapper.SysRoleMenuMapper;
 import com.bugod.core.service.ISysRoleMenuService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.bugod.entity.SysRoleMenu;
 import org.springframework.stereotype.Service;
 
 /**

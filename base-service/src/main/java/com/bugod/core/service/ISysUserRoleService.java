@@ -1,9 +1,7 @@
 package com.bugod.core.service;
 
-import com.bugod.entity.SysUserRole;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
+import com.bugod.entity.SysUserRole;
 
 /**
  * <p>

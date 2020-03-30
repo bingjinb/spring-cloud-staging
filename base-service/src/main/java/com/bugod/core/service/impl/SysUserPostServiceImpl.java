@@ -1,9 +1,9 @@
 package com.bugod.core.service.impl;
 
-import com.bugod.entity.SysUserPost;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bugod.core.mapper.SysUserPostMapper;
 import com.bugod.core.service.ISysUserPostService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.bugod.entity.SysUserPost;
 import org.springframework.stereotype.Service;
 
 /**

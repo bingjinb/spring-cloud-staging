@@ -1,7 +1,7 @@
 package com.bugod.core.mapper;
 
-import com.bugod.entity.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bugod.entity.SysUser;
 
 /**
  * <p>

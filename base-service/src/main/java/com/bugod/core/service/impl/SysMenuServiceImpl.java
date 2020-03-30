@@ -2,13 +2,11 @@ package com.bugod.core.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.bugod.core.mapper.SysMenuMapper;
 import com.bugod.core.service.*;
 import com.bugod.entity.SysMenu;
-import com.bugod.core.mapper.SysMenuMapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bugod.entity.SysRoleMenu;
-import com.bugod.entity.SysUser;
-import com.bugod.entity.SysUserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
