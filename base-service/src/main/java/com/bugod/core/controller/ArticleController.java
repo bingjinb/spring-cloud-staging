@@ -3,8 +3,8 @@ package com.bugod.core.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bugod.annotation.Log;
-import com.bugod.entity.Article;
 import com.bugod.core.service.IArticleService;
+import com.bugod.entity.Article;
 import com.bugod.entity.ResultWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +22,7 @@ public class ArticleController extends BaseController {
 	@Autowired
 	private IArticleService articleService;
 
+	// @EmailMonitor(email = "xxx@163.com")
 	@Log(description = "文章列表")
 	@ApiOperation(value = "列表", notes = "列表")
 	@GetMapping("/list")
@@ -29,6 +30,8 @@ public class ArticleController extends BaseController {
 		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
 		queryWrapper.eq(StrUtil.isNotBlank(title), Article::getTitle, title);
 		List<Article> result = articleService.list(queryWrapper);
+		// @EmailMonitor 注解异常邮件通知测试
+		// int i = 100 / 0;
 		return success(result);
 	}
 

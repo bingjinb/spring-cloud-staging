@@ -6,9 +6,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.bugod.annotation.Log;
 import com.bugod.constant.APIConstant;
 import com.bugod.constant.UserOperationRecordConstant;
-import com.bugod.entity.UserOperationRecord;
+import com.bugod.core.service.IEmailMonitorService;
 import com.bugod.core.service.IUserOperationRecordService;
 import com.bugod.entity.ResultWrapper;
+import com.bugod.entity.UserOperationRecord;
 import com.bugod.util.ApplicationContextBeanUtil;
 import com.bugod.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.Objects;
 
@@ -80,13 +80,16 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             String classTarget = handlerMethod.getBeanType().getName();
             String method = handlerMethod.getMethod().getName();
+            String result = JSONObject.toJSON(responseResult).toString();
             StringBuilder sb = new StringBuilder().append("\r\n")
                     .append("[方法]").append(classTarget).append(".").append(method).append("() ").append("\r\n")
                     .append("[头]").append("Authorization: ").append(authorization).append("\r\n")
                     .append("[参数]").append(args).append("\r\n")
-                    .append("[返回]").append(JSONObject.toJSON(responseResult)).append("\r\n")
+                    .append("[返回]").append(result).append("\r\n")
                     .append("[耗时]").append(operatingTime).append("ms\r\n");
             log.info(sb.toString());
+            // 临时添加日志，到操作轨迹详情字段，赋值后清除
+            po.setDetail(sb.toString());
             afterCompletionUserOperationRecord(handlerMethod, ex, po, responseResult);
         }
 
@@ -122,6 +125,17 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     private void afterCompletionUserOperationRecord(HandlerMethod handlerMethod, Exception ex, UserOperationRecord operation, ResultWrapper resultWrapper) {
         Log logger = handlerMethod.getMethodAnnotation(Log.class);
         boolean flag = Objects.nonNull(logger);
+
+        String title = new StringBuilder().append(operation.getActionUrl()).append("错误").toString();
+        // TODO 操作人根据token获取，做非空判断
+        String content = new StringBuilder().append("操作人:").append("root").append("  ")
+                                            .append("调用链ID:").append(MDC.get(APIConstant.TRACE_ID)).append("  ")
+                                            .append("报错时间").append(DateUtil.now()).append("\r\n")
+                                            .append(operation.getDetail()).toString();
+        IEmailMonitorService emailMonitorService = ApplicationContextBeanUtil.getBean(IEmailMonitorService.class);
+        emailMonitorService.monitorHandle(handlerMethod, title, content, resultWrapper.isSuccess());
+        operation.setDetail("");
+
         if (flag) {
             if (ex != null) {
                 String message = ex.getMessage();
@@ -146,6 +160,8 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         }
     }
 
+
+
     /**
      * 获取入库消息
      * @param message   ResultWrapper 下的 message 或 stack
@@ -157,7 +173,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
             errorMessage = message;
         } else {
             int length = message.length();
-            errorMessage = message.substring(0, length < 2000 ? length : 2000);
+            errorMessage = message.substring(0, Math.min(length, 200));
         }
         return errorMessage;
     }

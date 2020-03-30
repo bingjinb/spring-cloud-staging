@@ -38,6 +38,7 @@
         <hutool.version>5.2.3</hutool.version>
         <shiro.version>1.5.1</shiro.version>
         <jwt.version>3.10.1</jwt.version>
+        <mail.version>1.4.7</mail.version>
     </properties>
 
     <dependencyManagement>
@@ -82,7 +83,11 @@
                 <artifactId>java-jwt</artifactId>
                 <version>${jwt.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>${mail.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
