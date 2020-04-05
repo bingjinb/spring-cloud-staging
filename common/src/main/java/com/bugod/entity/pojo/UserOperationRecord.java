@@ -1,4 +1,4 @@
-package com.bugod.entity;
+package com.bugod.entity.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

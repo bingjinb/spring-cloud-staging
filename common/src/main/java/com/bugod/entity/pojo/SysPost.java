@@ -1,4 +1,5 @@
-package com.bugod.entity;
+package com.bugod.entity.pojo;
+
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 部门表
+ * 岗位信息表
  * </p>
  *
  * @author 虫神
@@ -17,51 +18,35 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode
 @Accessors(chain = true)
-public class SysDept {
+public class SysPost {
 
     private static final long serialVersionUID = 1L;
 
     private Integer id;
+    /**
+     * 岗位编码
+     */
+    private String postCode;
 
     /**
-     * 父部门id
+     * 岗位名称
      */
-    private Integer parentId;
-
-    /**
-     * 祖级列表
-     */
-    private String ancestors;
-
-    /**
-     * 部门名称
-     */
-    private String deptName;
+    private String postName;
 
     /**
      * 显示顺序
      */
-    private Integer orderNum;
+    private Integer postSort;
 
     /**
-     * 负责人
-     */
-    private String leader;
-
-    /**
-     * 联系电话
-     */
-    private String phone;
-
-    /**
-     * 邮箱
-     */
-    private String email;
-
-    /**
-     * 部门状态（0正常 1停用）
+     * 状态（0正常 1停用）
      */
     private Integer status;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
     /**
      * 创建时间

@@ -7,9 +7,9 @@ import com.bugod.core.mapper.SysRoleMapper;
 import com.bugod.core.service.ISysRoleService;
 import com.bugod.core.service.ISysUserRoleService;
 import com.bugod.core.service.ISysUserService;
-import com.bugod.entity.SysRole;
-import com.bugod.entity.SysUser;
-import com.bugod.entity.SysUserRole;
+import com.bugod.entity.pojo.SysRole;
+import com.bugod.entity.pojo.SysUser;
+import com.bugod.entity.pojo.SysUserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

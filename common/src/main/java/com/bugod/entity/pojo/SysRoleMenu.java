@@ -1,4 +1,4 @@
-package com.bugod.entity;
+package com.bugod.entity.pojo;
 
 
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 角色和部门关联表
+ * 角色和菜单关联表
  * </p>
  *
  * @author 虫神
@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode
 @Accessors(chain = true)
-public class SysRoleDept {
+public class SysRoleMenu {
 
     /**
      * 角色ID
@@ -24,9 +24,9 @@ public class SysRoleDept {
     private Integer roleId;
 
     /**
-     * 部门ID
+     * 菜单ID
      */
-    private Integer deptId;
+    private Integer menuId;
 
 
 }

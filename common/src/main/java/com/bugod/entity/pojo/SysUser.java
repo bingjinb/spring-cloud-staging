@@ -1,4 +1,4 @@
-package com.bugod.entity;
+package com.bugod.entity.pojo;
 
 
 import lombok.Data;

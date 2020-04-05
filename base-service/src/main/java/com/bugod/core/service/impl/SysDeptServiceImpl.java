@@ -3,7 +3,7 @@ package com.bugod.core.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bugod.core.mapper.SysDeptMapper;
 import com.bugod.core.service.ISysDeptService;
-import com.bugod.entity.SysDept;
+import com.bugod.entity.pojo.SysDept;
 import org.springframework.stereotype.Service;
 
 /**

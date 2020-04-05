@@ -1,7 +1,7 @@
 package com.bugod.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.bugod.entity.SysMenu;
+import com.bugod.entity.pojo.SysMenu;
 
 import java.util.List;
 

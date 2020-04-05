@@ -1,7 +1,7 @@
 package com.bugod.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.bugod.entity.UserOperationRecord;
+import com.bugod.entity.pojo.UserOperationRecord;
 
 /**
  * @Description: 用户操作轨迹记录表

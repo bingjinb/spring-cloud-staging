@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bugod.core.mapper.SysMenuMapper;
 import com.bugod.core.service.*;
-import com.bugod.entity.SysMenu;
-import com.bugod.entity.SysRoleMenu;
+import com.bugod.entity.pojo.SysMenu;
+import com.bugod.entity.pojo.SysRoleMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

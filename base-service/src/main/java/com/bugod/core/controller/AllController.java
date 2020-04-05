@@ -4,9 +4,8 @@ import com.bugod.constant.enums.ErrorCodeEnum;
 import com.bugod.constant.enums.GenderEnum;
 import com.bugod.core.service.ISysUserService;
 import com.bugod.entity.GenderPO;
-import com.bugod.entity.ResultWrapper;
-import com.bugod.entity.SysUser;
-import com.bugod.entity.User;
+import com.bugod.entity.pojo.ResultWrapper;
+import com.bugod.entity.pojo.SysUser;
 import com.bugod.util.JWTUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,7 +17,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -59,13 +57,6 @@ public class AllController extends BaseController {
             return error(ErrorCodeEnum.ARGS_NULL, "gender 不能为空");
         }
         return success(request);
-    }
-
-    @ApiOperation(value = "自定义注解", notes = "自定义注解")
-    @PostMapping("/validate")
-    public ResultWrapper<User> validate(@Validated User user) {
-        user.setEmail("admin@usa.com").setMobile("+86 "+user.getMobile());
-        return success(user);
     }
 
     @ApiOperation(value = "path", notes = "path")

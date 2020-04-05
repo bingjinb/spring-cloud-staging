@@ -1,7 +1,7 @@
 package com.bugod.core.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.bugod.entity.SysRole;
+import com.bugod.entity.pojo.SysRole;
 
 /**
  * <p>

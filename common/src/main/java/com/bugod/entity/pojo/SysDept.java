@@ -1,5 +1,4 @@
-package com.bugod.entity;
-
+package com.bugod.entity.pojo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,7 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 角色信息表
+ * 部门表
  * </p>
  *
  * @author 虫神
@@ -18,33 +17,49 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode
 @Accessors(chain = true)
-public class SysRole {
+public class SysDept {
 
     private static final long serialVersionUID = 1L;
 
     private Integer id;
-    /**
-     * 角色名称
-     */
-    private String roleName;
 
     /**
-     * 角色权限字符串
+     * 父部门id
      */
-    private String roleKey;
+    private Integer parentId;
+
+    /**
+     * 祖级列表
+     */
+    private String ancestors;
+
+    /**
+     * 部门名称
+     */
+    private String deptName;
 
     /**
      * 显示顺序
      */
-    private Integer roleSort;
+    private Integer orderNum;
 
     /**
-     * 数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+     * 负责人
      */
-    private Integer dataScope;
+    private String leader;
 
     /**
-     * 角色状态（0正常 1停用）
+     * 联系电话
+     */
+    private String phone;
+
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
+     * 部门状态（0正常 1停用）
      */
     private Integer status;
 

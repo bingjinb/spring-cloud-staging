@@ -1,7 +1,7 @@
 package com.bugod.config;
 
 import com.bugod.constant.APIConstant;
-import com.bugod.entity.ResultWrapper;
+import com.bugod.entity.pojo.ResultWrapper;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;

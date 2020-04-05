@@ -3,7 +3,7 @@ package com.bugod.core.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bugod.core.mapper.SysPostMapper;
 import com.bugod.core.service.ISysPostService;
-import com.bugod.entity.SysPost;
+import com.bugod.entity.pojo.SysPost;
 import org.springframework.stereotype.Service;
 
 /**

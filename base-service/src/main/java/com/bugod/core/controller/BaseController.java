@@ -2,7 +2,7 @@ package com.bugod.core.controller;
 
 
 import com.bugod.constant.enums.ErrorCodeEnum;
-import com.bugod.entity.ResultWrapper;
+import com.bugod.entity.pojo.ResultWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;

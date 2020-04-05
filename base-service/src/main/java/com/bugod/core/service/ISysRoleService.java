@@ -1,7 +1,7 @@
 package com.bugod.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.bugod.entity.SysRole;
+import com.bugod.entity.pojo.SysRole;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package com.bugod.shiro;
 import com.bugod.core.service.ISysMenuService;
 import com.bugod.core.service.ISysRoleService;
 import com.bugod.core.service.ISysUserService;
-import com.bugod.entity.SysUser;
+import com.bugod.entity.pojo.SysUser;
 import com.bugod.util.ApplicationContextBeanUtil;
 import com.bugod.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bugod.constant.enums.ErrorCodeEnum;
 import com.bugod.core.mapper.SysUserMapper;
 import com.bugod.core.service.ISysUserService;
-import com.bugod.entity.SysUser;
+import com.bugod.entity.pojo.SysUser;
 import com.bugod.exception.ApiException;
 import com.bugod.util.JWTUtil;
 import com.bugod.util.SecurityUtil;

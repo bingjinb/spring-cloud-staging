@@ -1,7 +1,7 @@
 package com.bugod.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.bugod.entity.SysDept;
+import com.bugod.entity.pojo.SysDept;
 
 /**
  * <p>

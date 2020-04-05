@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bugod.annotation.Log;
 import com.bugod.core.service.IArticleService;
 import com.bugod.entity.Article;
-import com.bugod.entity.ResultWrapper;
+import com.bugod.entity.pojo.ResultWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
