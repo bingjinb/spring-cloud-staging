@@ -3,9 +3,13 @@ package com.bugod.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.bugod.entity.property.Bugod;
 import com.bugod.factory.EnumConverterFactory;
 import com.bugod.interceptor.LogInterceptor;
 import com.bugod.interceptor.TraceIdInterceptor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
@@ -16,12 +20,20 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.servlet.DispatcherType;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@EnableConfigurationProperties({Bugod.class})
 public class WebMvcAutoConfiguration implements WebMvcConfigurer {
+
+    private final Bugod properties;
+
+    public WebMvcAutoConfiguration(Bugod properties) {
+        this.properties = properties;
+    }
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
@@ -83,5 +95,16 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
         jsonMessageConverter.setDefaultCharset(StandardCharsets.UTF_8);
         converters.add(jsonMessageConverter);
         converters.add(stringMessageConverter);
+    }
+
+    @Bean
+    public FilterRegistrationBean globalFilterRegistration() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setDispatcherTypes(DispatcherType.REQUEST);
+        registration.setFilter(new GlobalFilter());
+        registration.addUrlPatterns("/api/*");
+        registration.setName("globalFilter");
+        registration.setOrder(Integer.MAX_VALUE);
+        return registration;
     }
 }

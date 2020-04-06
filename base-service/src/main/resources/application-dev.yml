@@ -10,3 +10,10 @@ mybatis-plus:
   type-aliases-package: com.bugod.entity
   configuration:
     call-setters-on-nulls: true
+
+#bugod:
+#  xss:
+#    enabled: true
+#    exclude-fields:
+#    exclude-urls:
+#      - /api/test
