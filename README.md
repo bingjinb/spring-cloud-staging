@@ -38,6 +38,7 @@ HikariCP | 数据库连接池 | 3.4.2 |  [https://www.baeldung.com/hikaricp](htt
 - [x] p6spy实现SQL统一打印
 - [x] shiro和JWT实现权限管控
 - [x] swagger接口调测
+- [x] XSS攻击防御设置
 
 
 ## 联系作者

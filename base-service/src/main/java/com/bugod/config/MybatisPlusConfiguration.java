@@ -10,7 +10,7 @@ import org.springframework.core.annotation.Order;
 @Configuration
 @MapperScan("com.bugod.core.mapper*")
 @Order(2)
-public class MybatisPlusConfig {
+public class MybatisPlusConfiguration {
 
     @Bean
     public PaginationInterceptor paginationInterceptor() {
