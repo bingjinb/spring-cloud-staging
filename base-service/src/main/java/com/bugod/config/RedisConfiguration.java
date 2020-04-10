@@ -1,26 +1,47 @@
 package com.bugod.config;
 
+import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
+import org.springframework.cache.interceptor.SimpleKeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * <pre>
- * Copyright (C) 2020 江苏新日电动车股份有限公司
+ * Copyright (C) 2020 XXX股份有限公司
  * FileName: RedisConfig
- * Author:   beyond
+ * Author:   虫神
  * Date:     2020/4/9 16:17
  * Description: Redis 缓存配置
+ *     参考：https://blog.csdn.net/dreamhai/article/details/80642010
+ *  注解：
+ *    @Cacheable    对于一个支持缓存的方法，Spring会在其被调用后将其返回值缓存起来，以保证下次利用同样的参数来执行该方法时可以直接从缓存中获取结果
+ *      value：  缓存的名称，在 spring 配置文件中定义，必须指定至少一个
+ *      key：    缓存的 key，可以为空，如果指定要按照 SpEL 表达式编写，如果不指定，则缺省按照方法的所有参数进行组合
+ *      condition：  缓存的条件，可以为空，使用 SpEL 编写，返回 true 或者 false，只有为 true 才进行缓存
+ *
+ *    @CachePut     每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中
+ *
+ *    @CacheEvict   清除缓存元素，有value、key、condition、allEntries和beforeInvocation
+ *      allEntries 是boolean类型，表示是否需要清除缓存中的所有元素。默认为false，表示不需要。当指定了allEntries为true时，Spring Cache将忽略指定的key
+ *      beforeInvocation 清除操作默认是在对应方法成功执行之后触发的，即方法如果因为抛出异常而未能成功返回时也不会触发清除操作。使用beforeInvocation可以改变触发清除操作的时间，当我们指定该属性值为true时，Spring会在调用该方法之前清除缓存中的指定元素。
+ *
+ *
+ *
  * History:
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间         Jira编号            描述
@@ -40,6 +61,8 @@ public class RedisConfiguration extends CachingConfigurerSupport {
     @Bean
     @Override
     public KeyGenerator keyGenerator() {
+//        SimpleKeyGenerator simpleKeyGenerator = new SimpleKeyGenerator();
+//        return simpleKeyGenerator;
         return (target, method, objects) -> {
             StringBuilder sb = new StringBuilder();
             sb.append(target.getClass().getName());
@@ -78,17 +101,17 @@ public class RedisConfiguration extends CachingConfigurerSupport {
         om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
         jacksonSeial.setObjectMapper(om);
 
-        // 值采用json序列化
-        template.setValueSerializer(jacksonSeial);
-        //使用StringRedisSerializer来序列化和反序列化redis的key值
+        // key的序列化采用StringRedisSerializer
         template.setKeySerializer(new StringRedisSerializer());
-
-        // 设置hash key 和value序列化模式
         template.setHashKeySerializer(new StringRedisSerializer());
+
+        // value值的序列化采用fastJsonRedisSerializer
+        template.setValueSerializer(jacksonSeial);
         template.setHashValueSerializer(jacksonSeial);
         template.afterPropertiesSet();
 
         return template;
     }
+
 
 }

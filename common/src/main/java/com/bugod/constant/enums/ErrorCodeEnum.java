@@ -17,7 +17,7 @@ public enum ErrorCodeEnum {
     RBAC_TOKEN_INVALID(5004, "token失效"),
     RBAC_PERMISSION_NOT_EXIST(5005, "账号未授予相应权限"),
 
-
+    REDIS_ERROR(5020, "Redis异常"),
 
 
 

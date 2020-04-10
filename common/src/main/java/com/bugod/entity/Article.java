@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
@@ -16,7 +17,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="article对象", description="article")
-public class Article {
+public class Article implements Serializable {
 
 	@TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "主键ID")

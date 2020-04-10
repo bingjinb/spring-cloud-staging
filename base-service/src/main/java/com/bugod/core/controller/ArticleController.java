@@ -6,10 +6,13 @@ import com.bugod.annotation.Log;
 import com.bugod.core.service.IArticleService;
 import com.bugod.entity.Article;
 import com.bugod.entity.pojo.ResultWrapper;
+import com.bugod.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,14 +25,15 @@ public class ArticleController extends BaseController {
 	@Autowired
 	private IArticleService articleService;
 
+	@Autowired
+	RedisUtil redisUtil;
+
 	// @EmailMonitor(email = "xxx@163.com")
-	@Log(description = "文章列表")
+//	@Log(description = "文章列表")
 	@ApiOperation(value = "列表", notes = "列表")
 	@GetMapping("/list")
 	public ResultWrapper<List<Article>> list(String title) {
-		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-		queryWrapper.eq(StrUtil.isNotBlank(title), Article::getTitle, title);
-		List<Article> result = articleService.list(queryWrapper);
+		List<Article> result = articleService.list(title);
 		// @EmailMonitor 注解异常邮件通知测试
 		// int i = 100 / 0;
 		return success(result);
@@ -41,5 +45,36 @@ public class ArticleController extends BaseController {
 		Article article = new Article().setUserId(userId).setTitle(title).setContent(content);
 		Boolean result = articleService.save(article);
 		return success(result);
+	}
+
+	@CacheEvict(value = "list")
+	@ApiOperation(value = "clear", notes = "clear")
+	@GetMapping("/clear")
+	public ResultWrapper clear() {
+		return success();
+	}
+
+
+	@ApiOperation(value = "set", notes = "set")
+	@GetMapping("/set")
+	public ResultWrapper set() {
+		Article article = new Article();
+		redisUtil.set("hello", "你好");
+		redisUtil.set("PO", article.setTitle("PO").setUserId(111).toString());
+		return success();
+	}
+
+	@ApiOperation(value = "get", notes = "get")
+	@GetMapping("/get")
+	public ResultWrapper get() {
+		String hello = redisUtil.get("hello").toString();
+		String po = redisUtil.get("PO").toString();
+
+		String meth = redisUtil.get("title::com.bugod.core.service.impl.ArticleServiceImpl::list:4").toString();
+
+		System.out.println(hello);
+		System.out.println(po);
+		System.out.println(meth);
+		return success();
 	}
 }
