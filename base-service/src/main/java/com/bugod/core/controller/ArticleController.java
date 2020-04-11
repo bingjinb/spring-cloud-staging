@@ -1,8 +1,6 @@
 package com.bugod.core.controller;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.bugod.annotation.Log;
+import com.alibaba.fastjson.JSONObject;
 import com.bugod.core.service.IArticleService;
 import com.bugod.entity.Article;
 import com.bugod.entity.pojo.ResultWrapper;
@@ -11,8 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,34 +43,15 @@ public class ArticleController extends BaseController {
 		return success(result);
 	}
 
-	@CacheEvict(value = "list")
-	@ApiOperation(value = "clear", notes = "clear")
-	@GetMapping("/clear")
-	public ResultWrapper clear() {
-		return success();
-	}
-
-
-	@ApiOperation(value = "set", notes = "set")
-	@GetMapping("/set")
+	@ApiOperation(value = "fetch-缓存", notes = "fetch-缓存")
+	@GetMapping("/fetch")
 	public ResultWrapper set() {
 		Article article = new Article();
 		redisUtil.set("hello", "你好");
 		redisUtil.set("PO", article.setTitle("PO").setUserId(111).toString());
+		log.info(redisUtil.get("hello")+" , " + JSONObject.toJSON(redisUtil.get("PO")));
 		return success();
 	}
 
-	@ApiOperation(value = "get", notes = "get")
-	@GetMapping("/get")
-	public ResultWrapper get() {
-		String hello = redisUtil.get("hello").toString();
-		String po = redisUtil.get("PO").toString();
 
-		String meth = redisUtil.get("title::com.bugod.core.service.impl.ArticleServiceImpl::list:4").toString();
-
-		System.out.println(hello);
-		System.out.println(po);
-		System.out.println(meth);
-		return success();
-	}
 }

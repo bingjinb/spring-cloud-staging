@@ -1,24 +1,18 @@
 package com.bugod.config;
 
-import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
-import org.springframework.cache.interceptor.SimpleKeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * <pre>
@@ -75,7 +69,10 @@ public class RedisConfiguration extends CachingConfigurerSupport {
     }
 
     /**
-     * retemplate相关配置
+     * retemplate相关配置【mark】
+     * 1. 通过注解的方式 @Cacheable、@CachePut放入缓存，通过桌面工具看不到value
+     * 2. value值通过默认的、StringRedisSerializer、Jackson2JsonRedisSerializer等序列号方式都无效
+     * 3. 如果希望在桌面工具里看到完整的 value 值，建议用 RedisUtil工具下的方法
      *
      * @param factory redis连接工厂
      * @return RedisTemplate
