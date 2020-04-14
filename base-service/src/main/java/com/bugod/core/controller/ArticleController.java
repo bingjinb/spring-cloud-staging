@@ -37,11 +37,20 @@ public class ArticleController extends BaseController {
 
 	@ApiOperation(value = "保存", notes = "保存")
 	@PostMapping("/save")
-	public ResultWrapper<Boolean> list(@RequestParam Integer userId, @RequestParam String title, @RequestParam String content) {
+	public ResultWrapper<Boolean> save(@RequestParam Integer userId, @RequestParam String title, @RequestParam String content) {
 		Article article = new Article().setUserId(userId).setTitle(title).setContent(content);
 		Boolean result = articleService.save(article);
 		return success(result);
 	}
+
+	@ApiOperation(value = "更新", notes = "更新")
+	@PostMapping("/update")
+	public ResultWrapper<Boolean> update(@RequestParam Integer userId, @RequestParam String title, @RequestParam String content) {
+		Article article = new Article().setUserId(userId).setTitle(title).setContent(content);
+		Boolean result = articleService.update(article);
+		return success(result);
+	}
+
 
 	@ApiOperation(value = "fetch-缓存", notes = "fetch-缓存")
 	@GetMapping("/fetch")

@@ -7,5 +7,10 @@ import java.util.List;
 
 public interface IArticleService extends IService<Article> {
 
+
     List<Article> list(String title);
+
+    boolean save(Article po);
+
+    boolean update(Article po);
 }

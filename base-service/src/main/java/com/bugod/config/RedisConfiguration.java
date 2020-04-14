@@ -30,7 +30,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  *
  *    @CachePut     每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中
  *
- *    @CacheEvict   清除缓存元素，有value、key、condition、allEntries和beforeInvocation
+ *    @CacheEvict
+ *                  清除缓存元素，有value、key、condition、allEntries和beforeInvocation
  *      allEntries 是boolean类型，表示是否需要清除缓存中的所有元素。默认为false，表示不需要。当指定了allEntries为true时，Spring Cache将忽略指定的key
  *      beforeInvocation 清除操作默认是在对应方法成功执行之后触发的，即方法如果因为抛出异常而未能成功返回时也不会触发清除操作。使用beforeInvocation可以改变触发清除操作的时间，当我们指定该属性值为true时，Spring会在调用该方法之前清除缓存中的指定元素。
  *

@@ -114,11 +114,9 @@ public class AllController extends BaseController {
     }
 
     @ApiOperation(value = "test")
-    @GetMapping("/test")
-    public ResultWrapper requirePermission(@RequestParam String test) {
-        bugod.getXss();
-        Bugod b = ApplicationContextBeanUtil.getBean(Bugod.class);
-        return success(test);
+    @GetMapping("/getIntArgs")
+    public ResultWrapper getIntArgs(@RequestParam Integer num) {
+        return success(num);
     }
 
 }
