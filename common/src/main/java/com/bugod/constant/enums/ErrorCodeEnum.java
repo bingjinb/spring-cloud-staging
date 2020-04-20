@@ -18,6 +18,7 @@ public enum ErrorCodeEnum {
     RBAC_PERMISSION_NOT_EXIST(5005, "账号未授予相应权限"),
 
     REDIS_ERROR(5020, "Redis异常"),
+    LIMIT_ERROR(5021, "您刷新过于频繁，请稍后再试"),
 
 
 

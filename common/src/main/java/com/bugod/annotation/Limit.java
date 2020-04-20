@@ -39,7 +39,7 @@ public @interface Limit {
     /**
      * 时间范围，单位秒
      */
-    int period();
+    long period();
 
     /**
      * 限制访问次数

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.bugod.entity.property.Bugod;
 import com.bugod.factory.EnumConverterFactory;
+import com.bugod.interceptor.LimitInterceptor;
 import com.bugod.interceptor.LogInterceptor;
 import com.bugod.interceptor.TraceIdInterceptor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -52,6 +53,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
          */
         registry.addInterceptor(new TraceIdInterceptor()).addPathPatterns("/api/**");
         registry.addInterceptor(new LogInterceptor()).addPathPatterns("/api/**");
+        registry.addInterceptor(new LimitInterceptor()).addPathPatterns("/api/**");
     }
 
     @Override

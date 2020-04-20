@@ -1,6 +1,7 @@
 package com.bugod.core.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bugod.annotation.Limit;
 import com.bugod.core.service.IArticleService;
 import com.bugod.entity.Article;
 import com.bugod.entity.pojo.ResultWrapper;
@@ -26,9 +27,11 @@ public class ArticleController extends BaseController {
 
 	// @EmailMonitor(email = "xxx@163.com")
 //	@Log(description = "文章列表")
+	@Limit(name = "文章列表", period = 100, count = 5)
 	@ApiOperation(value = "列表", notes = "列表")
 	@GetMapping("/list")
 	public ResultWrapper<List<Article>> list(String title) {
+
 		List<Article> result = articleService.list(title);
 		// @EmailMonitor 注解异常邮件通知测试
 		// int i = 100 / 0;

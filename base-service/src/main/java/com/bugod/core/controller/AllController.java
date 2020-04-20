@@ -7,7 +7,6 @@ import com.bugod.entity.GenderPO;
 import com.bugod.entity.pojo.ResultWrapper;
 import com.bugod.entity.pojo.SysUser;
 import com.bugod.entity.property.Bugod;
-import com.bugod.util.ApplicationContextBeanUtil;
 import com.bugod.util.JWTUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

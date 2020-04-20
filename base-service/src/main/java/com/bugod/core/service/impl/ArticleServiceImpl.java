@@ -10,7 +10,6 @@ import com.bugod.entity.Article;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @param title
      * @return
      */
-    @Cacheable(value = "list", key = "#title", unless="#result == null")
+//    @Cacheable(value = "list", key = "#title", unless="#result == null")
     @Override
     public List<Article> list(String title) {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
