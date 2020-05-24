@@ -11,6 +11,19 @@ spring:
     name: base-service
   profiles:
     active: dev
+  boot:
+    admin:
+      client:
+        url: http://localhost:4010
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
 
 logging:
   file:

@@ -50,6 +50,18 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
         <!-- redis 引入Jar包 end -->
+        <!-- Eureka begin -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!-- Eureka end -->
+        <!-- spring boot admin begin -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- spring boot admin end -->
     </dependencies>
 
     <build>

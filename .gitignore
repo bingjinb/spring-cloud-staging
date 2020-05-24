@@ -2,3 +2,11 @@
 /base-service/target
 /base-service/log
 /common/target
+/app-service/*.iml
+/base-service/*.iml
+/common/*.iml
+/registration-center/*.iml
+/*.iml
+/registration-center/target
+/admin-service/*.iml
+/admin-service/target
