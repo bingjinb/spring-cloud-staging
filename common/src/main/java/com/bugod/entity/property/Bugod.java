@@ -26,6 +26,6 @@ public class Bugod {
      * Xss配置
      */
     @NestedConfigurationProperty()
-    private XSS xss ;
+    private XSS xss;
 
 }

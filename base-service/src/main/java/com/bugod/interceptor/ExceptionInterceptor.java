@@ -22,7 +22,7 @@ import java.util.List;
 
 @Slf4j
 @RestControllerAdvice
-public class ExceptionInterceptor{
+public class ExceptionInterceptor {
 
 
     @ExceptionHandler(ApiException.class)
@@ -59,10 +59,10 @@ public class ExceptionInterceptor{
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(ShiroException.class)
     @ResponseBody
-    public ResultWrapper doHandleShiroException(ShiroException ex){
+    public ResultWrapper doHandleShiroException(ShiroException ex) {
         Integer code = HttpStatus.UNAUTHORIZED.value();
         String message = HttpStatus.UNAUTHORIZED.getReasonPhrase();
-        if(ex instanceof UnauthorizedException){
+        if (ex instanceof UnauthorizedException) {
             code = ErrorCodeEnum.RBAC_PERMISSION_NOT_EXIST.getKey();
             message = ErrorCodeEnum.RBAC_PERMISSION_NOT_EXIST.getValue();
         }
@@ -81,10 +81,11 @@ public class ExceptionInterceptor{
 
     /**
      * 组装 ResultWrapper
-     * @param code  返回处理结果代码
-     * @param message   返回处理提示信息
-     * @param stack     堆栈信息 如果为空，则把异常赋值给它
-     * @param ex    异常，为空的stack赋值用
+     *
+     * @param code    返回处理结果代码
+     * @param message 返回处理提示信息
+     * @param stack   堆栈信息 如果为空，则把异常赋值给它
+     * @param ex      异常，为空的stack赋值用
      * @return
      */
     private ResultWrapper bindResultWrapper(Integer code, String message, String stack, Exception ex) {

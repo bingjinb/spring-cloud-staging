@@ -23,9 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
 
-
-
-
 /**
  * <pre>
  * Copyright (C) 2020 XXX股份有限公司
@@ -79,7 +76,7 @@ public class AllController extends BaseController {
     @ApiOperation(value = "登录")
     @PostMapping("/login")
     public ResultWrapper login(@RequestParam("loginName") String loginName,
-                              @RequestParam("password") String password) {
+                               @RequestParam("password") String password) {
         SysUser result = userService.verfyUser(loginName, password);
         String token = JWTUtil.sign(loginName, result.getPassword());
         return success("登陆成功", token);

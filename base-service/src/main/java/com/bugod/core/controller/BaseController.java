@@ -22,14 +22,14 @@ public class BaseController {
         ResultWrapper<T> resultWrapper = new ResultWrapper();
         resultWrapper.setSuccess(true);
         resultWrapper.setCode(ErrorCodeEnum.SUCCESS.getKey());
-        resultWrapper.setMessage(Objects.equals(message, "") ?ErrorCodeEnum.SUCCESS.getValue():message);
+        resultWrapper.setMessage(Objects.equals(message, "") ? ErrorCodeEnum.SUCCESS.getValue() : message);
         resultWrapper.setResult(object);
         return resultWrapper;
     }
 
     public <T> ResultWrapper<T> success(T object) {
-        if(object instanceof String){
-            return success("",object);
+        if (object instanceof String) {
+            return success("", object);
         }
         ResultWrapper<T> resultWrapper = new ResultWrapper();
         resultWrapper.setSuccess(true);

@@ -129,9 +129,9 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         String title = new StringBuilder().append(operation.getActionUrl()).append("错误").toString();
         // TODO 操作人根据token获取，做非空判断
         String content = new StringBuilder().append("操作人:").append("root").append("  ")
-                                            .append("调用链ID:").append(MDC.get(APIConstant.TRACE_ID)).append("  ")
-                                            .append("报错时间").append(DateUtil.now()).append("\r\n")
-                                            .append(operation.getDetail()).toString();
+                .append("调用链ID:").append(MDC.get(APIConstant.TRACE_ID)).append("  ")
+                .append("报错时间").append(DateUtil.now()).append("\r\n")
+                .append(operation.getDetail()).toString();
         IEmailMonitorService emailMonitorService = ApplicationContextBeanUtil.getBean(IEmailMonitorService.class);
         emailMonitorService.monitorHandle(handlerMethod, title, content, resultWrapper.isSuccess());
         operation.setDetail("");
@@ -161,10 +161,10 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     }
 
 
-
     /**
      * 获取入库消息
-     * @param message   ResultWrapper 下的 message 或 stack
+     *
+     * @param message ResultWrapper 下的 message 或 stack
      * @return
      */
     private String getMessage(String message) {

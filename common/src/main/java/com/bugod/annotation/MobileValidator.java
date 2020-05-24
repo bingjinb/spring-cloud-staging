@@ -26,7 +26,7 @@ public class MobileValidator implements ConstraintValidator<Mobile, String> {
 
     Mobile mobileAnnotation;
 
-    private static final Pattern mobile_pattern = Pattern.compile("^1[3|4|5|6|7|8|9][0-9]\\d{4,8}$" );
+    private static final Pattern mobile_pattern = Pattern.compile("^1[3|4|5|6|7|8|9][0-9]\\d{4,8}$");
 
     @Override
     public void initialize(Mobile mobileAnnotation) {

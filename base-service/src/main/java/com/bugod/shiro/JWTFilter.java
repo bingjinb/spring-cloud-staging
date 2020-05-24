@@ -22,7 +22,7 @@ import java.io.IOException;
  *          -> 有异常 -> JWTFilter.response401 捕获异常逻辑 -> 重定向到 401 -> 返回重定向的401定义的返回逻辑数据
  *                                                                          -> 旧的请求异常捕获 -> 旧的请求日志打印
  *  4. 返回重定向的401定义的返回逻辑数据 和 旧的请求异常捕获 -> 旧的请求日志打印并行的
- *</pre>
+ * </pre>
  */
 @Slf4j
 public class JWTFilter extends BasicHttpAuthenticationFilter {

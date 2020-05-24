@@ -6,7 +6,7 @@ import com.bugod.entity.pojo.UserOperationRecord;
 /**
  * @Description: 用户操作轨迹记录表
  * @Author: 虫神
- * @Date:   2020-03-14
+ * @Date: 2020-03-14
  * @Version: V1.0
  */
 public interface IUserOperationRecordService extends IService<UserOperationRecord> {
@@ -20,7 +20,6 @@ public interface IUserOperationRecordService extends IService<UserOperationRecor
      *       Null return value from advice does not match primitive return type for:
      *
      * </pre>
-     *
      *
      * @param po
      * @return

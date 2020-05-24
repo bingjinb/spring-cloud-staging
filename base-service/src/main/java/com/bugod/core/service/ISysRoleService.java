@@ -16,6 +16,7 @@ import java.util.List;
 public interface ISysRoleService extends IService<SysRole> {
     /**
      * 根据token获取角色名
+     *
      * @param token
      * @return list
      */

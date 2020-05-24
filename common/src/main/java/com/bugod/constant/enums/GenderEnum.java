@@ -17,7 +17,7 @@ import lombok.Getter;
  * </pre>
  */
 @Getter
-public enum  GenderEnum implements BaseEnum {
+public enum GenderEnum implements BaseEnum {
     MALE(0),
     FEMALE(1);
 

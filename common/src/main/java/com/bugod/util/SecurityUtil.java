@@ -10,17 +10,18 @@ import java.security.NoSuchAlgorithmException;
 public class SecurityUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
-    private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'} ;
+    private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     /**
      * MD5加密
+     *
      * @param inStr
      * @return
      */
     public static String MD5(String inStr) {
         String outStr = null;
         try {
-            MessageDigest md  = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] digest = md.digest(inStr.getBytes("utf-8"));
             outStr = byteToString(digest);
         } catch (NoSuchAlgorithmException e) {
@@ -33,6 +34,7 @@ public class SecurityUtil {
 
     /**
      * 转换字符串
+     *
      * @param digest
      * @return
      */

@@ -21,8 +21,7 @@ public enum ErrorCodeEnum {
     LIMIT_ERROR(5021, "您刷新过于频繁，请稍后再试"),
 
 
-
-    FAIL(999 , "系统异常");
+    FAIL(999, "系统异常");
 
 
     public static String desc(Integer key) {

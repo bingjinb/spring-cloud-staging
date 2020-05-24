@@ -23,7 +23,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 @Accessors(chain = true)
 @AllArgsConstructor
 public class JWTToken implements AuthenticationToken {
-    String token ;
+    String token;
 
     @Override
     public Object getPrincipal() {

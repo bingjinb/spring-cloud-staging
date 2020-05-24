@@ -27,6 +27,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     /**
      * 缓存名字为 list, 缓存key：title值，结果如果是空值，则不缓存
+     *
      * @param title
      * @return
      */
@@ -41,6 +42,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     /**
      * 每次保存，都清除掉，缓存名字为 list的所有值
+     *
      * @param po
      * @return
      */
@@ -52,6 +54,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     /**
      * 先查缓存，存在则不错处理，不存在，则更新所有list对应key的缓存。
+     *
      * @param po
      * @return
      */

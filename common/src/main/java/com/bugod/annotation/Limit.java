@@ -7,7 +7,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 
-
 /**
  * <pre>
  * Copyright (C) 2020 XXX股份有限公司

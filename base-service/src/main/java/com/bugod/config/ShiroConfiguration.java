@@ -54,7 +54,6 @@ public class ShiroConfiguration {
     }
 
 
-
     @Bean
     public ShiroFilterFactoryBean factory(DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();

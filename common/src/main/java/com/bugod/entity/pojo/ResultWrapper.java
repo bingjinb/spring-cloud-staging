@@ -7,7 +7,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@ApiModel(value = "接口返回对象",description = "接口返回对象")
+@ApiModel(value = "接口返回对象", description = "接口返回对象")
 public class ResultWrapper<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 

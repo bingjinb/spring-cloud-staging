@@ -23,12 +23,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * Description: Redis 缓存配置
  *     参考：https://blog.csdn.net/dreamhai/article/details/80642010
  *  注解：
- *    @Cacheable    对于一个支持缓存的方法，Spring会在其被调用后将其返回值缓存起来，以保证下次利用同样的参数来执行该方法时可以直接从缓存中获取结果
+ *    @Cacheable 对于一个支持缓存的方法，Spring会在其被调用后将其返回值缓存起来，以保证下次利用同样的参数来执行该方法时可以直接从缓存中获取结果
  *      value：  缓存的名称，在 spring 配置文件中定义，必须指定至少一个
  *      key：    缓存的 key，可以为空，如果指定要按照 SpEL 表达式编写，如果不指定，则缺省按照方法的所有参数进行组合
  *      condition：  缓存的条件，可以为空，使用 SpEL 编写，返回 true 或者 false，只有为 true 才进行缓存
  *
- *    @CachePut     每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中
+ *    @CachePut 每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中
  *
  *    @CacheEvict
  *                  清除缓存元素，有value、key、condition、allEntries和beforeInvocation
@@ -51,6 +51,7 @@ public class RedisConfiguration extends CachingConfigurerSupport {
     /**
      * 设置 redis 下 key 生成规则，尽量保持唯一性，即默认生成规则：
      * 类名::方法名:参数名
+     *
      * @return KeyGenerator
      */
     @Bean

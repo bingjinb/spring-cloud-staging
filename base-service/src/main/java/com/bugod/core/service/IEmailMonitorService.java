@@ -19,6 +19,7 @@ import org.springframework.web.method.HandlerMethod;
 public interface IEmailMonitorService {
     /**
      * 发送邮件
+     *
      * @param handlerMethod
      * @param title
      * @param emailContent

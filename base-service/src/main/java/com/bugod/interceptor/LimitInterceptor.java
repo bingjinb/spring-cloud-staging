@@ -37,7 +37,7 @@ public class LimitInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String ip = IpUtil.getClientIpAddress(request);
         if (handler instanceof HandlerMethod) {
-            HandlerMethod handlerMethod = (HandlerMethod)handler;
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
             Limit limit = handlerMethod.getMethodAnnotation(Limit.class);
             boolean flag = Objects.nonNull(limit);
             if (flag) {
@@ -64,11 +64,11 @@ public class LimitInterceptor extends HandlerInterceptorAdapter {
 //                log.info("-------------> "+(value == null ? 0 : Integer.parseInt(value.toString())));
                 if (Objects.isNull(value)) {
                     redisUtil.set(prefix, 1L, period);
-                }else{
+                } else {
                     int countCurrent = Integer.parseInt(value.toString());
                     if (countCurrent < count) {
                         redisUtil.incr(prefix, 1L);
-                    }else{
+                    } else {
                         throw new ApiException(ErrorCodeEnum.LIMIT_ERROR);
                     }
                 }

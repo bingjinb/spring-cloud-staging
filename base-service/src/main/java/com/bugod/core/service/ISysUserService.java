@@ -14,6 +14,7 @@ import com.bugod.entity.pojo.SysUser;
 public interface ISysUserService extends IService<SysUser> {
     /**
      * 解密获得username，用于和数据库进行对比，根据用户名，查询表判断是否有数据
+     *
      * @param token
      * @return SysUser
      */
@@ -21,6 +22,7 @@ public interface ISysUserService extends IService<SysUser> {
 
     /**
      * 验证账号密码是否正确
+     *
      * @param loginName
      * @param password
      * @return Boolean

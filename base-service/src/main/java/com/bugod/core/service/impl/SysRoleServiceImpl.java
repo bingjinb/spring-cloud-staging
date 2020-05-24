@@ -43,7 +43,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         if (CollectionUtil.isNotEmpty(roleIds)) {
             LambdaQueryWrapper<SysRole> wrapper = new LambdaQueryWrapper<>();
             wrapper.in(SysRole::getId, roleIds);
-            result  = list(wrapper).stream().map(SysRole::getRoleKey).collect(toList());
+            result = list(wrapper).stream().map(SysRole::getRoleKey).collect(toList());
         }
 
         return result;

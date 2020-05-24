@@ -16,49 +16,49 @@ import java.util.Date;
 @TableName("article")
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="article对象", description="article")
+@ApiModel(value = "article对象", description = "article")
 public class Article implements Serializable {
 
-	@TableId(type = IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "主键ID")
-	private Integer id;
+    private Integer id;
 
     @ApiModelProperty(value = "发布者")
-	private Integer userId;
+    private Integer userId;
 
     @ApiModelProperty(value = "标题")
-	private String title;
+    private String title;
 
     @ApiModelProperty(value = "内容")
-	private Object content;
+    private Object content;
 
     @ApiModelProperty(value = "顺序")
-	private Integer sort;
+    private Integer sort;
 
     @ApiModelProperty(value = "是否公开:1|是, -1|否")
-	private Integer isPublic;
+    private Integer isPublic;
 
     @ApiModelProperty(value = "是否推荐:1|是, -1|否")
-	private Integer recommend;
+    private Integer recommend;
 
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
-	private Date createTime;
+    private Date createTime;
 
     @ApiModelProperty(value = "创建人")
-    @TableField(fill= FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private String createBy;
 
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新时间")
-	private Date updateTime;
+    private Date updateTime;
 
     @ApiModelProperty(value = "修改人")
-    @TableField(fill= FieldFill.UPDATE)
+    @TableField(fill = FieldFill.UPDATE)
     private String updateBy;
 
     @ApiModelProperty(value = "删除标识（0|未删除  1|已删除）")
-	private Integer isDelete;
+    private Integer isDelete;
 }
