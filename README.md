@@ -15,18 +15,22 @@ spring-cloud-staging是基于Spring Cloud开发的管理系统后台，未来会
 
 技术 | 名称 | 版本 | 官网
 ----|------|----|----
+Spring Cloud | 微服务框架 | Hoxton.SR3 |  [https://spring.io/projects/spring-cloud](https://spring.io/projects/spring-cloud)
 Spring Boot | 应用框架 | 2.2.5.RELEASE | [https://projects.spring.io/spring-boot/](https://projects.spring.io/spring-boot/)
+Spring Boot Admin | 管理和监控SpringBoot | 2.2.3 |  [https://github.com/codecentric/spring-boot-admin](https://github.com/codecentric/spring-boot-admin)
 MyBatis Plus | ORM框架 | 3.3.1 |  [https://mybatis.plus](https://mybatis.plus)
 Swagger2 | 在线Api文档 | 2.8.0 |  [https://swagger.io/](https://swagger.io/)
 Shiro | 权限管控 | 1.5.1 | [http://shiro.apache.org](http://shiro.apache.org)
 Logback | 日志组件 | 1.2.3 |  [https://logback.qos.ch](https://logback.qos.ch/)
 HikariCP | 数据库连接池 | 3.4.2 |  [https://www.baeldung.com/hikaricp](https://www.baeldung.com/hikaricp)
+Hutool | 公共组件 | 5.2.3 |  [https://hutool.cn/](https://hutool.cn/)
 
 
 ## 软件版本
 - JDK 1.8.0_231
 - MySQL 5.7.10
 - Maven 3.2.3
+- Redis 3.0.501
 
 ## 当前进度
 - [x] 日志格式统一处理
@@ -40,6 +44,14 @@ HikariCP | 数据库连接池 | 3.4.2 |  [https://www.baeldung.com/hikaricp](htt
 - [x] swagger接口调测
 - [x] XSS攻击防御设置
 - [x] IP限流规避DoS攻击防御
+- [x] 注册中心
+- [x] Spring Boot 服务监控
+- [ ] 网关
+- [ ] 配置中心
+- [ ] 对外服务
+- [ ] 调用链追踪
+
+
 
 
 ## 联系作者
