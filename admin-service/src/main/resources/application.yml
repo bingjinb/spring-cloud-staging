@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: admin-service
+  security:
+    user:
+      name: "admin"
+      password: "admin"
+#  mail:
+#    host: smtp.163.com
+#    username:
+#    password:
+#  boot:
+#    admin:
+#      notify:
+#        mail:
+#          to:
+server:
+  port: 4010
+
+eureka:
+  instance:
+    statusPageUrlPath: /actuator/info
+    healthCheckUrlPath: /actuator/health
+    prefer-ip-address: true
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:4000}/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
