@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.bugod.annotation.Log;
+import com.bugod.config.GlobalRequestWrapper;
 import com.bugod.constant.APIConstant;
 import com.bugod.constant.UserOperationRecordConstant;
 import com.bugod.core.service.IEmailMonitorService;
@@ -12,6 +13,7 @@ import com.bugod.entity.pojo.ResultWrapper;
 import com.bugod.entity.pojo.UserOperationRecord;
 import com.bugod.util.ApplicationContextBeanUtil;
 import com.bugod.util.IpUtil;
+import com.bugod.util.ValidatorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.web.method.HandlerMethod;
@@ -53,7 +55,14 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 
         UserOperationRecord po = new UserOperationRecord();
         if (handler instanceof HandlerMethod) {
-            po.setActionUrl(uri).setParameter(JSONObject.toJSONString(map)).setIp(ip).setStartTime(new Date());
+            String args;
+            if (ValidatorUtil.isNullOrEmpty(map)) {
+                GlobalRequestWrapper requestWrapper = new GlobalRequestWrapper(request);
+                args = requestWrapper.getBody();
+            } else {
+                args = JSONObject.toJSONString(map);
+            }
+            po.setActionUrl(uri).setParameter(args).setIp(ip).setStartTime(new Date());
             preHandleUserOperationRecord((HandlerMethod) handler, po);
         }
 
@@ -69,7 +78,8 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         UserOperationRecord po = (UserOperationRecord) request.getAttribute(UserOperationRecordConstant.CONSTANT);
         ResultWrapper responseResult = (ResultWrapper) request.getAttribute(APIConstant.RESPONSE_RESULT);
         String authorization = request.getHeader("Authorization");
-        String args = JSONObject.toJSONString(request.getParameterMap());
+        String args = ((UserOperationRecord) request.getAttribute(UserOperationRecordConstant.CONSTANT)).getParameter();
+
 
         Date startTime = po.getStartTime();
         Long operatingTime = DateUtil.between(startTime, endTime, DateUnit.MS);

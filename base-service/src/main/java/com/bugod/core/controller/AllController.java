@@ -3,9 +3,11 @@ package com.bugod.core.controller;
 import com.bugod.constant.enums.ErrorCodeEnum;
 import com.bugod.constant.enums.GenderEnum;
 import com.bugod.core.service.ISysUserService;
+import com.bugod.core.service.IUserOperationRecordService;
 import com.bugod.entity.GenderPO;
 import com.bugod.entity.pojo.ResultWrapper;
 import com.bugod.entity.pojo.SysUser;
+import com.bugod.entity.pojo.UserOperationRecord;
 import com.bugod.entity.property.Bugod;
 import com.bugod.util.JWTUtil;
 import io.swagger.annotations.Api;
@@ -49,6 +51,9 @@ public class AllController extends BaseController {
 
     @Autowired
     Bugod bugod;
+
+    @Autowired
+    IUserOperationRecordService userOperationRecordService;
 
     @ApiOperation(value = "Get获取枚举", notes = "Get获取枚举")
     @GetMapping("/enum")
@@ -114,5 +119,14 @@ public class AllController extends BaseController {
     public ResultWrapper getIntArgs(@RequestParam Integer num) {
         return success(num);
     }
+
+//    UserOperationRecord
+
+    @ApiOperation(value = "查询用户轨迹-测试RequestBody 入参打印问题")
+    @PostMapping("/getUOR")
+    public ResultWrapper getUOR(@RequestBody UserOperationRecord uor) {
+        return success(userOperationRecordService.list());
+    }
+
 
 }

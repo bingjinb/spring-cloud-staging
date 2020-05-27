@@ -1,6 +1,9 @@
 package com.bugod.config;
 
+import org.springframework.stereotype.Component;
+
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -23,13 +26,19 @@ import java.io.IOException;
  *
  * </pre>
  */
+@Component
+@WebFilter(urlPatterns = "/*", filterName = "globalFilter")
 public class GlobalFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        GlobalRequestWrapper xssRequest = new GlobalRequestWrapper((HttpServletRequest) servletRequest);
-        //       HttpServletRequestWrapper xssRequest = new HttpServletRequestWrapper((HttpServletRequest) servletRequest);
-        filterChain.doFilter(xssRequest, servletResponse);
+        if (servletRequest instanceof HttpServletRequest) {
+            GlobalRequestWrapper requestWrapper = new GlobalRequestWrapper((HttpServletRequest) servletRequest);
+            filterChain.doFilter(requestWrapper, servletResponse);
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
+
     }
 
 }
