@@ -37,7 +37,7 @@
         <p6spy.version>3.8.5</p6spy.version>
         <fastjson.version>1.2.54</fastjson.version>
         <hutool.version>5.2.3</hutool.version>
-        <shiro.version>1.5.1</shiro.version>
+        <shiro.version>1.7.1</shiro.version>
         <jwt.version>3.10.1</jwt.version>
         <mail.version>1.4.7</mail.version>
         <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
