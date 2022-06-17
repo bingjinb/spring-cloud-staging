@@ -35,7 +35,7 @@
         <swaggerVersion>2.8.0</swaggerVersion>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <p6spy.version>3.8.5</p6spy.version>
-        <fastjson.version>1.2.54</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <hutool.version>5.2.3</hutool.version>
         <shiro.version>1.5.1</shiro.version>
         <jwt.version>3.10.1</jwt.version>
